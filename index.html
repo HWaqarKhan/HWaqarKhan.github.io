@@ -40,6 +40,9 @@
   <!-- Preloader -->
   <div id="preloader"></div>
 
+  <!-- WebGL Background -->
+  <canvas id="bg-canvas"></canvas>
+
   <!-- ======= Header ======= -->
   <header id="header">
     <div class="container">
@@ -388,6 +391,17 @@
   <script src="./assets/js/konsole.js"></script>
   <script src="./assets/js/consoleScript.js"></script>
   <script src="assets/js/navigation.js"></script>
+
+  <!-- Three.js and Energy Ribbons -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="assets/js/energy-ribbons.js"></script>
 
   <!-- Project Detail Modal -->
   <div id="projectModalBackdrop" class="modal-backdrop">
