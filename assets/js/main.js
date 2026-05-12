@@ -91,11 +91,11 @@ function smoothScrollToTop(el) {
         navbarToggle.classList.toggle('bi-x')
       }
       if (this.hash == "#Console") {
-        // console.log("🚀 ~ file: main.js ~ line 97 ~ konsole.elem", konsole.elem)
         document.querySelector('.console').classList.remove('hidden');
-        // konsole.print("If you don't know how to use it, please type \"help\" to find out commands.")
-        // konsoleSettings.konsoleHelpMsg()
-        konsole.print("If you don't know how to use it, please type \"help\" to find out commands.'Mobile Not Supported'")
+        konsole.print("Initializing terminal...");
+        setTimeout(() => {
+          konsole.exec("neofetch");
+        }, 500);
         konsole.awaitKommand();
         konsole.elem.focus();
       } else {

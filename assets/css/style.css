@@ -1,6 +1,54 @@
 /*--------------------------------------------------------------
-# General & Tokens
+# Custom Cursor
 --------------------------------------------------------------*/
+.custom-cursor {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--primary-color);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+  transform: translate3d(-50%, -50%, 0);
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-inner {
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10001;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.cursor-hover {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(24, 210, 110, 0.1);
+  border-color: #fff;
+}
+
+.cursor-inner-hover {
+  transform: translate3d(-50%, -50%, 0) scale(2);
+  background-color: #fff;
+}
+
+.cursor-active {
+  transform: translate3d(-50%, -50%, 0) scale(0.8);
+}
+
+@media (max-width: 991px) {
+
+  .custom-cursor,
+  .custom-cursor-inner {
+    display: none;
+  }
+}
+
 :root {
   --primary-color: #18d26e;
   --bg-dark: #000;
@@ -19,10 +67,12 @@ body {
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
-  background-color: #000; /* Pitch black for WebGL contrast */
+  font-family: "Inter", sans-serif;
+  background-color: #000;
+  /* Pitch black for WebGL contrast */
   color: var(--text-primary);
   position: relative;
+  line-height: 1.6;
 }
 
 #bg-canvas {
@@ -38,12 +88,13 @@ body {
 body::before {
   content: "";
   position: fixed;
-  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
   left: 0;
   right: 0;
   top: 0;
   height: 100vh;
-  z-index: 0; /* Keep it above canvas but behind content */
+  z-index: 0;
+  /* Keep it above canvas but behind content */
   pointer-events: none;
 }
 
@@ -64,13 +115,21 @@ a:hover,
   text-decoration: none;
 }
 
+a,
+button,
+.nav-link,
+.exp-nav-btn {
+  touch-action: manipulation;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: "Raleway", sans-serif;
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
 }
 
 .bx {
@@ -222,8 +281,46 @@ h6 {
 }
 
 /*--------------------------------------------------------------
-# Navigation Menu
+# Case Study Narrative Styles
 --------------------------------------------------------------*/
+.case-study-narrative {
+  margin-top: 30px;
+  color: var(--text-secondary);
+}
+
+.narrative-section {
+  margin-bottom: 25px;
+}
+
+.narrative-section h5 {
+  color: var(--primary-color);
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.modal-tech-badge {
+  background: rgba(24, 210, 110, 0.15);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 8px;
+  font-weight: 500;
+}
+
+.project-detail-modal {
+  max-width: 800px;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
 /**
 * Desktop Navigation 
 */
@@ -530,7 +627,7 @@ section .container {
 }
 
 .skill-tag {
-  background: rgba(24, 210, 110, 0.1);
+  background: rgba(16, 179, 92, 0.1);
   color: #fff;
   padding: 8px 18px;
   border-radius: 30px;
@@ -545,7 +642,7 @@ section .container {
   background: #18d26e;
   color: #040404;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(24, 210, 110, 0.3);
+  box-shadow: 0 4px 12px rgba(19, 191, 99, 0.3);
   border-color: #18d26e;
 }
 
@@ -2352,7 +2449,8 @@ pre.KonsolePara {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center; /* Center horizontally */
+  align-items: center;
+  /* Center horizontally */
   padding: 80px 20px 60px 20px;
   pointer-events: none;
 }
@@ -2379,7 +2477,8 @@ pre.KonsolePara {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 100; /* Above background and content */
+  z-index: 100;
+  /* Above background and content */
   pointer-events: none;
 }
 
@@ -2394,7 +2493,7 @@ pre.KonsolePara {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
   display: flex;
@@ -2420,7 +2519,7 @@ pre.KonsolePara {
 .testimonial-bubble .bubble-name {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2477,7 +2576,7 @@ pre.KonsolePara {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border: none;
   color: #fff;
   width: 40px;
@@ -2509,11 +2608,21 @@ pre.KonsolePara {
   border: 3px solid #18d26e;
 }
 
-.expanded-info h4 { margin: 0; color: #fff; font-size: 24px; }
-.expanded-info h5 { margin: 5px 0 0; color: #18d26e; font-size: 16px; opacity: 0.9; }
+.expanded-info h4 {
+  margin: 0;
+  color: #fff;
+  font-size: 24px;
+}
+
+.expanded-info h5 {
+  margin: 5px 0 0;
+  color: #18d26e;
+  font-size: 16px;
+  opacity: 0.9;
+}
 
 .expanded-text {
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   font-style: italic;
   line-height: 1.8;
   font-size: 18px;
@@ -2524,6 +2633,7 @@ pre.KonsolePara {
   color: rgba(24, 210, 110, 0.3);
   font-size: 32px;
 }
+
 /* Terminal Full-Viewport Mode (Green Button) */
 .terminal-fullscreen {
   position: fixed !important;
@@ -2905,4 +3015,147 @@ pre.KonsolePara {
   padding: 2px 8px;
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .tab ul.tabs {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab ul.tabs li {
+    display: inline-block !important;
+    float: none !important;
+    margin-right: 15px !important;
+  }
+
+  .exp-spine {
+    display: none !important;
+  }
+
+  .exp-slides-wrap {
+    padding-left: 0 !important;
+  }
+}
+
+.tabs_item {
+  display: none;
+}
+
+.tabs_item.active-tab {
+  display: block !important;
+}
+
+@media (max-width: 768px) {
+  .tab ul.tabs li {
+    flex-shrink: 0 !important;
+    width: auto !important;
+    padding: 0 10px !important;
+  }
+
+  .tab ul.tabs a {
+    white-space: nowrap !important;
+    display: block !important;
+  }
+}
+
+.cert-card {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.cert-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-5px);
+}
+
+.cert-icon {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+.cert-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cert-info {
+  flex-grow: 1;
+}
+
+.cert-info h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+.cert-info p {
+  margin: 5px 0 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.cert-link a {
+  color: var(--primary-color);
+  font-size: 20px;
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
+.cert-link a:hover {
+  opacity: 1;
+}
+
+.icon-box {
+  display: none !important;
+}
+
+.skill-category {
+  padding: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+.skill-category-title {
+  font-size: 1.2rem !important;
+  margin-bottom: 15px !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.skill-category-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px !important;
+}
+
+.skill-tag {
+  background: rgba(20, 179, 94, 0.05) !important;
+  border: 1px solid rgba(24, 210, 110, 0.2) !important;
+  padding: 6px 14px !important;
+  font-size: 13px !important;
+  transition: all 0.2s ease !important;
+}
+
+.skill-tag:active {
+  transform: scale(0.9) !important;
+  background: var(--primary-color) !important;
+  color: #000 !important;
+}
+
+@media (max-width: 576px) {
+  .skill-category-title {
+    font-size: 1.1rem !important;
+  }
 }

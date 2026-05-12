@@ -94,25 +94,48 @@ function getExperienceTemplate(e) {
 }
 
 function getCertificationTemplate(e) {
-  return `<div class="col-lg-6 col-md-12 m-auto"><div class="icon-box mb-1"><img class="me-4" src="${e.img}" alt="${e.name}" width="50" height="50"><h3 class="me-5">${e.name}</h3><a href="${e.url}" target="_blank" class="text-white"><p class="mt-auto mb-auto">${e.source}</p></a></div></div>`;
+  return `
+    <div class="col-lg-6 col-md-12 mb-3">
+      <div class="cert-card">
+        <div class="cert-icon">
+          <img src="${e.img}" alt="${e.name}">
+        </div>
+        <div class="cert-info">
+          <h4>${e.name}</h4>
+          <p>${e.source}</p>
+        </div>
+        <div class="cert-link">
+          <a href="${e.url}" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
+        </div>
+      </div>
+    </div>`;
 }
 
 function getPortfolios(e) {
   const techBadges = String(e.tech || '').split(',').filter(t => t.trim()).map(t => `<span class="portfolio-tech-badge">${t.trim()}</span>`).join('');
   return `
-    <div class="col-lg-4 col-md-6 portfolio-item filter-app" data-name="${e.name}" data-img="${e.img}" data-tech="${e.tech}" data-url="${e.url}" data-description="${e.description || ''}">
-      <div class="portfolio-wrap">
+    <div class="col-lg-4 col-md-6 portfolio-item filter-app" 
+         data-name="${e.name}" 
+         data-img="${e.img}" 
+         data-tech="${e.tech}" 
+         data-url="${e.url}" 
+         data-description="${e.description || ''}"
+         data-problem="${e.problem || 'Coming soon...'}"
+         data-solution="${e.solution || 'Coming soon...'}"
+         data-role="${e.role || 'Senior Developer'}"
+         data-impact="${e.impact || 'Successful deployment and positive user feedback.'}">
+      <div class="portfolio-wrap tilt-card">
         <img src="${e.img}" alt="${e.name}" class="img-fluid">
         <div class="portfolio-info">
           <h4>${e.name}</h4>
-          <div class="portfolio-tech-list">${techBadges}</div>
           <div class="portfolio-links">
-            <a href="javascript:void(0)" class="project-details-btn" title="View Details"><i class="bi bi-eye"></i></a>
-            <a href="${e.url}" target="_blank" title="Live Demo"><i class="bi bi-link-45deg"></i></a>
+          <a href="javascript:void(0)" class="project-details-btn" title="View Details"><i class="bi bi-eye"></i></a>
+          <a href="${e.url}" target="_blank" title="Live Demo"><i class="bi bi-link-45deg"></i></a>
           </div>
-        </div>
-      </div>
-    </div>`;
+          </div>
+          </div>
+          </div>`;
+  // <div class="portfolio-tech-list">${techBadges}</div>
 }
 
 function getProgress(e) {
@@ -332,14 +355,73 @@ function initExperienceTimeline() {
     nodes.eq(current).removeClass('active'); current = idx;
     slides.eq(current).addClass('active ' + (dir === 'down' ? 'enter-down' : 'enter-up'));
     nodes.eq(current).addClass('active');
-    setTimeout(() => slides.removeClass('exit-up exit-down enter-up enter-down'), 500);
+    setTimeout(() => slides.removeClass('exit-up exit-down enter-up enter-down'), 400);
     fill.css('height', (current / (total - 1) * 100) + '%');
     timeline.find('.exp-current-num').text(current + 1);
-    timeline.find('.exp-prev').prop('disabled', current === 0);
-    timeline.find('.exp-next').prop('disabled', current === total - 1);
+    timeline.find('.exp-prev').prop('disabled', false); // Never disable, use for tab handoff
+    timeline.find('.exp-next').prop('disabled', false);
   }
-  timeline.find('.exp-prev').on('click', () => goTo(current - 1));
-  timeline.find('.exp-next').on('click', () => goTo(current + 1));
+
+  timeline.find('.exp-prev').on('click', () => {
+    if (current === 0) {
+      // Go to Skills Tab (Index 1)
+      $('.tab ul.tabs li').eq(1).click();
+    } else {
+      goTo(current - 1);
+    }
+  });
+
+  timeline.find('.exp-next').on('click', () => {
+    if (current === total - 1) {
+      // Go to Certifications Tab (Index 3)
+      $('.tab ul.tabs li').eq(3).click();
+    } else {
+      goTo(current + 1);
+    }
+  });
+
+  // Mouse Wheel Support
+  let lastWheelTime = 0;
+  timeline.on('wheel', function(e) {
+    const now = Date.now();
+    if (now - lastWheelTime < 250) return; // Snappier debounce
+    
+    if (e.originalEvent.deltaY > 0) {
+      if (current < total - 1) {
+        e.preventDefault();
+        goTo(current + 1);
+        lastWheelTime = now;
+      }
+    } else {
+      if (current > 0) {
+        e.preventDefault();
+        goTo(current - 1);
+        lastWheelTime = now;
+      }
+    }
+  });
+
+  // Touch Swipe Support
+  let touchStartY = 0;
+  timeline.on('touchstart', function(e) {
+    touchStartY = e.originalEvent.touches[0].clientY;
+  });
+
+  timeline.on('touchend', function(e) {
+    const touchEndY = e.originalEvent.changedTouches[0].clientY;
+    const diff = touchStartY - touchEndY;
+    
+    if (Math.abs(diff) > 50) { // Swipe threshold
+      if (diff > 0) { // Swipe Up -> Next
+        if (current < total - 1) goTo(current + 1);
+        else $('.tab ul.tabs li').eq(3).click();
+      } else { // Swipe Down -> Prev
+        if (current > 0) goTo(current - 1);
+        else $('.tab ul.tabs li').eq(1).click();
+      }
+    }
+  });
+
   nodes.on('click', function () { goTo($(this).data('index')); });
 }
 
@@ -354,6 +436,10 @@ $(document).ready(function () {
     const tech = String(item.data('tech') || '').split(',').filter(t => t.trim()).map(t => `<span class="modal-tech-badge">${t.trim()}</span>`).join('');
     $('#projectModalTech').html(tech);
     $('#projectModalDesc').html(item.data('description') || 'No description available.');
+    $('#projectProblem').text(item.data('problem'));
+    $('#projectSolution').text(item.data('solution'));
+    $('#projectRole').text(item.data('role'));
+    $('#projectImpact').text(item.data('impact'));
     $('#projectLiveDemo').attr('href', item.data('url'));
     $('#projectModalBackdrop').addClass('show');
     $('body').css('overflow', 'hidden');
@@ -371,6 +457,26 @@ $(document).ready(function () {
   $(document).on('keydown', (e) => {
     if (e.key === 'Escape') { closeProject(); closeTestimonial(); }
   });
+
+  // 3D Tilt Effect Logic
+  $(document).on('mousemove', '.tilt-card', function (e) {
+    const card = $(this);
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+
+    card.css('transform', `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
+  });
+
+  $(document).on('mouseleave', '.tilt-card', function () {
+    $(this).css('transform', 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+  });
 });
 
-$(document).on('click', '.tab ul.tabs li', function () { if ($(this).index() === 2) setTimeout(initExperienceTimeline, 450); });
+$(document).on('click', '.tab ul.tabs li', function () { if ($(this).index() === 2) setTimeout(initExperienceTimeline, 50); });

@@ -96,6 +96,23 @@ $(async () => {
     konsole.RegisterDefaultKommands();
 
     konsole.RegisterKommand(
+      new Kommand("neofetch", "Display system information", null, () => {
+        return new Promise(async (resolve) => {
+          const art = `
+   WK    
+  /  \\   OS: WebPortfolio v2.0
+ / /\\ \\  Host: ${window.location.hostname}
+/ /__\\ \\ Kernel: Senior Dev Core
+\\  __  / Shell: bash-waqar
+ \\/  \\/  Uptime: Infinite Potential
+          `;
+          await konsole.print(art);
+          resolve();
+        });
+      })
+    );
+
+    konsole.RegisterKommand(
       new Kommand("close", "Close Resume.", null, () => {
         return new Promise((resolve, reject) => {
           window.close();

@@ -22,6 +22,9 @@ class EnergyRibbons {
         this.targetMouse = new THREE.Vector2(0, 0);
         this.time = 0;
 
+        // Accessibility: Reduced Motion
+        this.isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         this.init();
         this.createRibbons();
         this.createDust();
@@ -263,7 +266,8 @@ class EnergyRibbons {
     animate() {
         requestAnimationFrame(() => this.animate());
 
-        this.time += 0.01;
+        const delta = this.isReducedMotion ? 0.002 : 0.01;
+        this.time += delta;
         this.material.uniforms.uTime.value = this.time;
 
         // Smooth mouse movement

@@ -20,9 +20,11 @@
   <!-- Favicons -->
   <link id="fav" href="" rel="shortcut icon" type="image/png">
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Sora (Headings) & Inter (UI/Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@400;600;700&display=swap"
     rel="stylesheet">
 
 
@@ -52,14 +54,14 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link active" href="#header">Home</a></li>
-          <li><a class="nav-link" href="#about">About</a></li>
-          <li><a class="nav-link" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link" href="#testimonial">Testimonials</a></li>
-          <li><a class="nav-link" href="#Console">Console</a></li>
-          <li><a class="nav-link" href="#contact">Contact</a></li>
+          <li><a class="nav-link active" href="#header" aria-label="Navigate to Home">Home</a></li>
+          <li><a class="nav-link" href="#about" aria-label="Read more About Me">About</a></li>
+          <li><a class="nav-link" href="#portfolio" aria-label="View my Portfolio Projects">Portfolio</a></li>
+          <li><a class="nav-link" href="#testimonial" aria-label="Read Client Testimonials">Testimonials</a></li>
+          <li><a class="nav-link" href="#Console" aria-label="Open Interactive Console">Console</a></li>
+          <li><a class="nav-link" href="#contact" aria-label="Go to Contact Section">Contact</a></li>
         </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
+        <i class="bi bi-list mobile-nav-toggle" aria-label="Toggle Navigation Menu"></i>
       </nav>
       <!-- .navbar -->
 
@@ -90,12 +92,12 @@
           <div id="aboutMe2" class="tab-item">
             <div class="about-me ">
 
-              <div class="section-title">
+              <div class="section-title delay-100">
                 <h2>About Me</h2>
                 <p>Learn more about me</p>
               </div>
 
-              <div class="row">
+              <div class="row delay-200">
                 <div class="col-lg-12 pt-4 pt-lg-0 content" data-aos="fade-left">
                   <h3 id="designation"></h3>
                   <p class="fst-italic" id="aboutMe"></p>
@@ -130,7 +132,7 @@
                 </div>
               </div>
 
-              <div id="education-block" class="mt-3">
+              <div id="education-block" class="mt-3 delay-300">
                 <div class="container-fluid cc-education">
                   <div class="section-title">
                     <h2>Education</h2>
@@ -217,12 +219,12 @@
   <section id="portfolio" class="portfolio">
     <div class="container">
 
-      <div class="section-title">
+      <div class="section-title delay-100">
         <h2>Portfolio</h2>
         <p>My Works</p>
       </div>
 
-      <div class="row projects">
+      <div class="row projects delay-200">
 
       </div>
       <!-- <div class="col-lg-4 col-md-6 portfolio-item filter-app">
@@ -402,6 +404,7 @@
     }
   </script>
   <script type="module" src="assets/js/energy-ribbons.js"></script>
+  <script src="assets/js/custom-cursor.js"></script>
 
   <!-- Project Detail Modal -->
   <div id="projectModalBackdrop" class="modal-backdrop">
@@ -412,9 +415,40 @@
       </div>
       <div class="modal-body">
         <img src="" alt="Project image" class="modal-image" id="projectModalImage"
-          style="width:100%; height:auto; border-radius:8px; margin-bottom:15px;" />
-        <p class="modal-tech" id="projectModalTech"></p>
-        <p class="modal-description" id="projectModalDesc">Description goes here.</p>
+          style="width:100%; height:auto; border-radius:12px; margin-bottom:20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" />
+
+        <div class="case-study-meta mb-4">
+          <p class="modal-tech" id="projectModalTech"></p>
+        </div>
+
+        <div class="case-study-narrative">
+          <div class="narrative-section">
+            <h5><i class="bi bi-question-circle me-2"></i>The Problem</h5>
+            <p id="projectProblem"></p>
+          </div>
+          <div class="narrative-section">
+            <h5><i class="bi bi-lightbulb me-2"></i>The Solution</h5>
+            <p id="projectSolution"></p>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="narrative-section">
+                <h5><i class="bi bi-person-badge me-2"></i>My Role</h5>
+                <p id="projectRole"></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="narrative-section">
+                <h5><i class="bi bi-graph-up-arrow me-2"></i>The Impact</h5>
+                <p id="projectImpact"></p>
+              </div>
+            </div>
+          </div>
+          <div class="narrative-section">
+            <h5><i class="bi bi-info-circle me-2"></i>Details</h5>
+            <p class="modal-description" id="projectModalDesc"></p>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <a href="#" target="_blank" class="btn btn-primary" id="projectLiveDemo">Live Demo</a>

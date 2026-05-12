@@ -7,14 +7,14 @@
 
   let isAnimating = false;
   let lastJumpTime = 0;
-  const SECTION_COOLDOWN = 1200;
-  const KEY_COOLDOWN = 500;
+  const SECTION_COOLDOWN = 600; // Snappier section jumps
+  const KEY_COOLDOWN = 300;
 
   // Experience-specific scroll stability
   let lastExpStepTime = 0;
   let wheelDeltaAccum = 0;
-  const EXP_COOLDOWN = 1000;  // ms between experience steps
-  const EXP_DELTA_THRESHOLD = 300;   // accumulated deltaY needed to trigger a step
+  const EXP_COOLDOWN = 400;  // ms between experience steps (faster handoff)
+  const EXP_DELTA_THRESHOLD = 80;   // lower threshold for easier scrolling
 
   /* ─── helpers ─────────────────────────────────────────────────── */
 
