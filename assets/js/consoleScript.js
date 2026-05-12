@@ -4,7 +4,7 @@ let ks = new KonsoleSettings();
 ks.animatePrint = false;
 ks.printLetterInterval = 20;
 ks.registerDefaultKommands = false;
-let konsole = new Konsole("#Console", ks);
+let konsole = new Konsole("#konsole-body", ks);
 function toAnchorTag(text, url) {
   return `<a target='_blank' tabindex="-1" href='${url}'>${text}</a>`;
 }
@@ -34,7 +34,9 @@ $(async () => {
   //#endregion cloud call
 
   //#region local call
-  $.getJSON("./assets/data/profile.json", function (data) {
+  $.getJSON("./assets/data/profile.json", function (res) {
+    let data = res.profile;
+
     konsole.RegisterKommand(
       new Kommand("about", "me", null, () => {
         return new Promise((resolve, reject) => {
@@ -44,10 +46,14 @@ $(async () => {
     );
 
     konsole.RegisterKommand(
-      new Kommand("langs", "languages ", null, () => {
+      new Kommand("skills", "list all skills and technologies", null, () => {
         return new Promise(async (resolve, reject) => {
-          for (const language of data.languages) {
-            await konsole.print(`${language.name} - ${language.level}`);
+          for (const skillCat of data.skill_categories) {
+            await konsole.print(
+              `${skillCat.category}\n${"¯".repeat(
+                skillCat.category.length
+              )}\n    ${skillCat.items.join(", ")}`
+            );
           }
           resolve();
         });
@@ -64,26 +70,6 @@ $(async () => {
             for (const project of data.projects) {
               await konsole.print(
                 `${toAnchorTag(project.name, project.url)} - ${project.tech}`
-              );
-            }
-            resolve();
-          });
-        }
-      )
-    );
-
-    konsole.RegisterKommand(
-      new Kommand(
-        "tech",
-        "frameworks and libraries i've worked with or interested in learning.",
-        null,
-        () => {
-          return new Promise(async (resolve, reject) => {
-            for (const tech of data.technologies) {
-              await konsole.print(
-                `${tech.name}\n${"¯".repeat(
-                  tech.name.length
-                )}\n    ${tech.items.join("\n    ")}`
               );
             }
             resolve();
@@ -121,4 +107,4 @@ $(async () => {
     // konsole.awaitKommand();
   });
   //#endregion local call
-})();
+});

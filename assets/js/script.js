@@ -1,36 +1,18 @@
-// window.jsPDF = window.jspdf.jsPDF;
 var profile;
 target = "_blank";
-var doc = new jsPDF("p", "pt", "legal");
 getPlatformName = (data) => data[3].url;
 
 function RenderList(list, template) {
   var res = "";
   $.each(list, function (i, e) {
-    if (template === consts.SKILLS) {
-      res += getSkillsTemplate(e);
-    }
-    if (template === consts.EXPERIENCES) {
-      res += getExperienceTemplate(e);
-    }
-    if (template === consts.EDUCATION) {
-      res += getEducationTemplate(e);
-    }
-    if (template === consts.CERTIFICATION) {
-      res += getCertificationTemplate(e);
-    }
-    if (template === consts.PORTFOLIO) {
-      res += getPortfolios(e);
-    }
-    // if (template === consts.progress) {
-    //   res += getProgress(e);
-    // }
-    if (template === consts.TESTIMONIAL) {
-      res += getTestimonials(e);
-    }
-    if (template === consts.LINKS) {
-      res += getLinks(e);
-    }
+    if (template === consts.SKILLS) res += getSkillsTemplate(e);
+    if (template === consts.EXPERIENCES) res += getExperienceTemplate(e);
+    if (template === consts.EDUCATION) res += getEducationTemplate(e);
+    if (template === consts.CERTIFICATION) res += getCertificationTemplate(e);
+    if (template === consts.PORTFOLIO) res += getPortfolios(e);
+    if (template === consts.PROGRESS) res += getProgress(e);
+    if (template === consts.TESTIMONIAL) res += getTestimonials(e);
+    if (template === consts.LINKS) res += getLinks(e);
   });
   return res;
 }
@@ -49,49 +31,24 @@ const consts = {
 
 var title = "#title";
 var fav = "#fav";
-var name = "#name";
+var nameSelector = "#name";
 var skills = "#skills_data";
-var education = "#education_history";
+var education = "#education-history";
 var exps = ".experiences";
 var cert = "#certifications";
 var portfolio = ".projects";
 var progress = "#progress";
-var testimonial = ".swiper-wrapper";
-var languages = ".languages";
+var testimonial = "#testimonial-nebula";
 var links = ".social-links";
 
 (async () => {
-  //#region cloud call
-  // const response = await fetch('https://graph.perspective-v.com/graph/resume', {
-  //   method: 'POST',
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Accept": "*/*"
-  //   },
-  //   body: JSON.stringify({
-  //     query: `query getMyResume($token:String!){
-  //             getbyaccesstoken(accesToken:$token){
-  //               name,
-  //               jsonData
-  //             }
-  //           }`,
-  //     variables: {
-  //       token: 'PsoFcktcf0yrQvuYgbIjSA=='
-  //     }
-  //   })
-  // });
-  // const body = await response.json();
-  // var p = JSON.parse(body.data.getbyaccesstoken.jsonData);
-  //#endregion cloud call
-
-  //#region local call
   $.getJSON("./assets/data/profile.json", function (profile) {
     var p = profile.profile;
     $(title).text(p.name);
     $(".emailLink").attr("href", `mailto:${p.email}`);
     $(fav).attr("href", p.favicon);
-    $(name).text(p.name);
-    console.log($("#tagLine").append(p.tagLine));
+    $(nameSelector).text(p.name);
+    $("#tagLine").html(p.tagLine);
     $("#designation").text(p.designation);
     $("#aboutMe").text(p.about);
     $(".myEmail").text(p.email);
@@ -100,253 +57,320 @@ var links = ".social-links";
     $("#address").text(p.address);
     $(".time-js").text(new Date().getFullYear());
 
-    // skills
-    $(skills).html(RenderList(p.skills, consts.SKILLS));
-    // languages
-    $(languages).html(RenderList(p.languages, consts.LANGUAGES));
-    // work experience
-    $(exps).html(RenderList(p.experiences, consts.EXPERIENCES));
-    // education
+    // Render Components
+    $(skills).html(RenderList(p.skill_categories, consts.SKILLS));
+    $(exps).html(buildExperienceTimeline(p.experiences));
     $(education).html(RenderList(p.education_history, consts.EDUCATION));
-    // certification
     $(cert).html(RenderList(p.certifications, consts.CERTIFICATION));
-    // Testimonial
     $(progress).html(RenderList(p.progress, consts.PROGRESS));
     $(testimonial).html(RenderList(p.testimonial, consts.TESTIMONIAL));
-    // Portfolio
     $(portfolio).html(RenderList(p.projects, consts.PORTFOLIO));
-    // Links
     $(links).html(RenderList(p.links, consts.LINKS));
 
-    //#region data for pdf file
-    $(".topLevelTitle").append(p.name);
-    $(".username_pdf").append(p.name);
-    $(".address_pdf").append(p.address);
-    $(".mail_pdf").append(p.email);
-    $(".mobileNumber_pdf").append(p.phone);
-    var linkedIn = document.querySelector(".linkedIn_pdf");
-    linkedIn.innerHTML = "linkedin.com/in/hafiz-waqar-khan/";
-    linkedIn.href = getPlatformName(p.links);
-    linkedIn.target = target;
-    var about = $(".about_pdf").append(p.about);
-    $.each(p.skills, (i, skill) =>
-      $(".skill_pdf").append(`<li>${skill.name}</li>`)
-    );
-    $.each(p.education_history, function (i, edu) {
-      $(".education_pdf").append(
-        `<li>${edu.institute_name}<br>${edu.type}<br>${edu.from} — ${
-          edu.isCurrent == true ? "Present" : edu.to
-        }</li>`
-      );
-    });
-    $.each(p.experiences, function (i, exp) {
-      // console.log(exp)
-      $(".experience_pdf").append(`
-        <li>
-        ${exp.company}<br>
-        ${exp.designation}<br>
-        ${exp.from} — ${exp.isCurrent == true ? "Present" : exp.to}
-        ${exp.description}<br>
-        </li>`);
-    });
-    $.each(p.certifications, function (i, cert) {
-      $(".certification_pdf").append(`
-        <li>
-        <b> ${cert.name} </b> - ${cert.source}<br>
-        </li>`);
-    });
+    // Initialize Hero & Nebula
+    if (window.initHeroNebula) initHeroNebula();
+    new LiquidNebula('#testimonial-nebula', '.testimonial-bubble');
 
-    $(document).on("click", "#gPDF", function () {
-      // doc.text(x, y, "value");
-      doc.splitTextToSize(p.about, 50);
-      // doc.fromHTML($("#pdf").html(), 25, 15);
-      // let pageHeight = doc.internal.pageSize.height;
-
-      // // Before adding new content
-      // y = 400 // Height position of new content
-      // if (y >= pageHeight) {
-      //   doc.addPage();
-      //   y = 0 // Restart height position
-      // }
-      doc.context2d.pageWrapYEnabled = true;
-      doc.fromHTML($("#pdf").html(), 20, 0, {
-        width: 550,
-      });
-      doc.save(`${p.name}'s CV.pdf`);
-
-      // doc.save(`Waqar Khan's CV.pdf`);
-    });
-    //#endregion data for pdf file
-  })();
-  //#endregion local call
+    // PDF Info
+    $(".username_pdf").text(p.name);
+    $(".tagline_pdf").text(p.tagLine);
+    $(".mail_pdf").text(p.email);
+    $(".mobileNumber_pdf").text(p.phone);
+  });
 })();
 
+// Templates
 function getSkillsTemplate(e) {
-  return `
-  <div class="col-lg-6">
-  <div class="progress">
-  <span class="skill">${e.name} <i class="val">${e.score}</i></span>
-  <div class="progress-bar-wrap">
-  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-  aria-valuenow="${e.score}" aria-valuemin="0" aria-valuemax="100" style="width: ${e.score}%"></div>
-  </div>
-  </div>
-  </div>
-  `;
+  let itemsHtml = e.items.map(item => `<span class="skill-tag">${item}</span>`).join('');
+  return `<div class="col-12 mb-4"><div class="skill-category"><h3 class="skill-category-title">${e.category}</h3><div class="skill-category-items">${itemsHtml}</div></div></div>`;
 }
 
 function getEducationTemplate(e) {
-  var education = `
-  <div class="card col-lg-5 col-md-12 mx-auto mb-3">
-  <div class="row education">
-    <div class="col-md-4 degree" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-      <div class="card-body cc-education-header">
-        <p class="fw-bold d-flex align-content-center">${e.from} - ${e.to}</p>
-      </div>
-    </div>
-  <div class="col-md-8" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-    <div class="card-body">
-      <div class="h5">${e.type}</div>
-      <p class="category">${e.institute_name}</p>
-    </div>
-  </div>
-  </div>
-  </div>
-  </div>`;
-  return education;
+  return `<div class="card col-lg-5 col-md-12 mx-auto mb-3"><div class="row education"><div class="col-md-4 degree"><div class="card-body cc-education-header"><p class="fw-bold d-flex align-content-center">${e.from} - ${e.to}</p></div></div><div class="col-md-8"><div class="card-body"><div class="h5">${e.type}</div><p class="category">${e.institute_name}</p></div></div></div></div>`;
 }
 
 function getExperienceTemplate(e) {
-  var exp = `<div class="card">
-  <div class="row education">
-  <div class="col-md-3 degree" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-  <div class="card-body cc-education-header">
-  <p>${e.from} — ${e.isCurrent == true ? "Present" : e.to}</p>
-  <div class="h5">${e.company}</div>
-  </div>
-  </div>
-  <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-  <div class="card-body">
-  <div class="h5">${e.designation}</div>
-  <p>${e.description}</p>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>`;
-
-  var proExperience = ` 
-  <div class="experience-item">
-  <h4>${e.designation}</h4>
-  <h5>${e.from} — ${e.isCurrent == true ? "Present" : e.to}</h5>
-  <p><em>${e.company} </em></p>
-  <p>
-  <ul>
-  <li>${e.description}</li>
-  </ul>
-  </p>
-  </div>`;
-  return proExperience;
+  return `<div class="experience-item"><h4>${e.designation}</h4><h5>${e.from} — ${e.isCurrent ? "Present" : e.to}</h5><p><em>${e.company}</em></p><div class="experience-description">${e.description}</div></div>`;
 }
 
 function getCertificationTemplate(e) {
-  var cert = `
-  <div class="col-lg-6 col-md-12 m-auto">
-  <div class="icon-box mb-1">
-  <img class="me-4" src="${e.img}" alt="${e.name}" width="50" height="50">
-  <h3 class="me-5">${e.name}</h3>
-  <a href="${e.url}" target="_blank" class="text-white" title="verified" >
-  <p class="mt-auto mb-auto" >${e.source} </p>
-  </a>
-  </div>
-  </div>`;
-  return cert;
+  return `<div class="col-lg-6 col-md-12 m-auto"><div class="icon-box mb-1"><img class="me-4" src="${e.img}" alt="${e.name}" width="50" height="50"><h3 class="me-5">${e.name}</h3><a href="${e.url}" target="_blank" class="text-white"><p class="mt-auto mb-auto">${e.source}</p></a></div></div>`;
 }
 
 function getPortfolios(e) {
-  var projects = `
-  <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-  <div class="portfolio-wrap">
-  <img src="${e.img}" alt="${e.name}" width="400">
-  <div class="portfolio-info">
-  <h3>${e.name}</h3>
-  <p>${e.tech}</p>
-  <div class="portfolio-links">
-  <a href="${e.url}" target="_blank" data-gallery="portfolioDetailsGallery" data-glightbox="type: external"
-  class="portfolio-details-lightbox" title="Website Link"><i class="bx bi bi-link-45deg"></i></a>
-  </div>
-  </div>
-  </div>
-  </div>`;
-  return projects;
+  const techBadges = String(e.tech || '').split(',').filter(t => t.trim()).map(t => `<span class="portfolio-tech-badge">${t.trim()}</span>`).join('');
+  return `
+    <div class="col-lg-4 col-md-6 portfolio-item filter-app" data-name="${e.name}" data-img="${e.img}" data-tech="${e.tech}" data-url="${e.url}" data-description="${e.description || ''}">
+      <div class="portfolio-wrap">
+        <img src="${e.img}" alt="${e.name}" class="img-fluid">
+        <div class="portfolio-info">
+          <h4>${e.name}</h4>
+          <div class="portfolio-tech-list">${techBadges}</div>
+          <div class="portfolio-links">
+            <a href="javascript:void(0)" class="project-details-btn" title="View Details"><i class="bi bi-eye"></i></a>
+            <a href="${e.url}" target="_blank" title="Live Demo"><i class="bi bi-link-45deg"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>`;
 }
 
 function getProgress(e) {
-  var progress = `
-  <div class="col-lg-3 col-md-6">
-  <div class="count-box">
-  <i class="${e.icon}"></i>
-  <span >${e.count}</span>
-  <p>${e.name}</p>
-  </div>
-  </div>
-  `;
-  return progress;
+  return `<div class="col-lg-3 col-md-6"><div class="count-box"><i class="${e.icon}"></i><span>${e.count}</span><p>${e.name}</p></div></div>`;
 }
 
 function getTestimonials(e) {
-  var testimonials = `
-  <div class="swiper-slide">
-  <div class="row commendation">
-
-    <div class="story mt-5">
-    <figure class="story__shape">
-    <img src="${e.img}" alt="${e.name}" class="story__image">
-    <figcaption class="story__caption">${e.name}</figcaption>
-    </figure>
-    <div class="story__text">
-    <a class="story__text-link" href="${e.link}" target="_blank" title="UpWork Endorsement">
-    <p>
-    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-    ${e.endorsement}
-    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-    </p>
-    <div class="identity">
-    <h4>${e.name}</h4>
-    <h5>${e.designation}</h5>
-    </div>
-    </a>
-    </div>
-    </div>
-    </div>
-    </div>
-    `;
-  return testimonials;
+  const data = btoa(unescape(encodeURIComponent(JSON.stringify(e))));
+  return `<div class="testimonial-bubble" data-testimonial="${data}"><img src="${e.img}" alt="${e.name}"><div class="bubble-name">${e.name}</div></div>`;
 }
 
-getLinks = (e) =>
-  `<a href="${e.url}" target="_blank" class="${e.name}"><i class="${e.icon}"></i></a>`;
+function getLinks(e) {
+  return `<a href="${e.url}" target="_blank" class="${e.name}"><i class="${e.icon}"></i></a>`;
+}
 
-// function appendData(data) {
-//     var name = document.querySelector('#name');
-//     var tagLine = document.querySelector('#tagLine');
-//     var designation = document.querySelector('#designation');
-//     var aboutMe = document.querySelector('#aboutMe');
-//     var email = document.querySelector('#email');
-//     var email_H = document.querySelector('#email_H');
-//     var phoneNo = document.querySelector('#phoneNo');
-//     var degree = document.querySelector('#degree');
-//     var address = document.querySelector('#address');
+/**
+ * REFINED LIQUID NEBULA PHYSICS
+ */
+class LiquidNebula {
+  constructor(container, items, options = {}) {
+    this.container = $(container);
+    this.items = $(items);
+    this.physics = [];
+    this.mouse = { x: -1000, y: -1000, active: false };
+    this.config = { drift: 0.04, friction: 0.992, boundaryBounce: 0.7, rippleStrength: 0.4, rippleRadius: 200, cruiseSpeed: 0.5, ...options };
+    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    this.init();
+  }
 
-//     for (var i = 0; i < data.length; i++) {
-//         name.innerHTML = data[i].profile[i].firstName + ' ' + data[i].profile[i].lastName;
-//         tagLine.innerHTML = data[i].profile[i].tagLine;
-//         designation.innerHTML = data[i].profile[i].designation;
-//         aboutMe.innerHTML = data[i].profile[i].about;
-//         email.innerHTML = data[i].profile[i].email;
-//         email_H.innerHTML = data[i].heading[i].email_H;
-//         phoneNo.innerHTML = data[i].profile[i].phone;
-//         degree.innerHTML = data[i].profile[i].degree;
-//         address.innerHTML = data[i].profile[i].address;
-//     }
-// }
+  init() {
+    const width = this.container.width() || window.innerWidth;
+    const height = this.container.height() || 600;
+
+    this.items.each((i, el) => {
+      const $el = $(el);
+      const state = { el: $el, x: Math.random() * (width - 100), y: Math.random() * (height - 100), vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2, radius: 55, mass: 1 + Math.random(), isDragging: false, isHovered: false };
+      this.setupInteraction($el, state);
+      this.physics.push(state);
+      $el.css({ position: 'absolute', left: 0, top: 0, transition: 'none' });
+    });
+
+    this.container.on('mousemove touchmove', (e) => {
+      const rect = this.container[0].getBoundingClientRect();
+      const x = e.type === 'touchmove' ? e.originalEvent.touches[0].clientX : e.clientX;
+      const y = e.type === 'touchmove' ? e.originalEvent.touches[0].clientY : e.clientY;
+      this.mouse.x = x - rect.left;
+      this.mouse.y = y - rect.top;
+      this.mouse.active = true;
+    }).on('mouseleave touchend', () => { this.mouse.x = -1000; this.mouse.y = -1000; });
+
+    requestAnimationFrame(() => this.update());
+  }
+
+  setupInteraction($el, state) {
+    let startX, startY, origX, origY, dist = 0;
+    $el.on('mouseenter', () => state.isHovered = true);
+    $el.on('mouseleave', () => state.isHovered = false);
+
+    $el.on('mousedown touchstart', (e) => {
+      e.preventDefault();
+      state.isDragging = true;
+      dist = 0;
+      $el.addClass('dragging');
+      const rect = this.container[0].getBoundingClientRect();
+      const x = e.type === 'touchstart' ? e.originalEvent.touches[0].clientX : e.clientX;
+      const y = e.type === 'touchstart' ? e.originalEvent.touches[0].clientY : e.clientY;
+      startX = x - rect.left; startY = y - rect.top;
+      origX = state.x; origY = state.y;
+
+      let lastX = x, lastY = y;
+
+      $(document).on('mousemove.drag touchmove.drag', (me) => {
+        const mx = me.type === 'touchmove' ? me.originalEvent.touches[0].clientX : me.clientX;
+        const my = me.type === 'touchmove' ? me.originalEvent.touches[0].clientY : me.clientY;
+
+        const dx = (mx - rect.left) - startX;
+        const dy = (my - rect.top) - startY;
+        dist += Math.sqrt(Math.pow(mx - lastX, 2) + Math.pow(my - lastY, 2));
+
+        // Momentum calculation: how fast is the mouse moving?
+        state.vx = (mx - lastX) * 0.8;
+        state.vy = (my - lastY) * 0.8;
+
+        state.x = origX + dx;
+        state.y = origY + dy;
+
+        lastX = mx; lastY = my;
+      });
+
+      $(document).on('mouseup.drag touchend.drag', () => {
+        state.isDragging = false;
+        $el.removeClass('dragging');
+        $(document).off('.drag');
+
+        // If moved less than 7 pixels, it's a click
+        if (dist < 7) {
+          this.openModal($el);
+        }
+      });
+    });
+  }
+
+  openModal($el) {
+    const raw = $el.data('testimonial');
+    if (!raw) return;
+    const data = JSON.parse(decodeURIComponent(escape(atob(raw))));
+
+    $('#expanded-content').html(`
+      <div class="expanded-header">
+        <img src="${data.img}" alt="${data.name}">
+        <div class="expanded-info">
+          <h4>${data.name}</h4>
+          <h5>${data.designation}</h5>
+        </div>
+      </div>
+      <div class="expanded-text">
+        <i class="bi bi-quote"></i>
+        ${data.endorsement}
+      </div>
+    `);
+    $('#testimonial-overlay').addClass('active');
+    $('body').css('overflow', 'hidden');
+  }
+
+  playChime(vol) {
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+    const now = this.audioCtx.currentTime;
+    [1, 3.2, 5.5].forEach((r, i) => {
+      const osc = this.audioCtx.createOscillator(); const gain = this.audioCtx.createGain();
+      osc.type = 'sine'; osc.frequency.setValueAtTime(600 * r, now);
+      gain.gain.setValueAtTime(0, now); gain.gain.linearRampToValueAtTime((0.03 / (i + 1)) * vol, now + 0.01); gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5 / r);
+      osc.connect(gain); gain.connect(this.audioCtx.destination); osc.start(now); osc.stop(now + 0.6);
+    });
+  }
+
+  update() {
+    const w = this.container.width(), h = this.container.height() || 600;
+    for (let i = 0; i < this.physics.length; i++) {
+      for (let j = i + 1; j < this.physics.length; j++) {
+        const p1 = this.physics[i], p2 = this.physics[j];
+        const dx = (p2.x + p2.radius) - (p1.x + p1.radius), dy = (p2.y + p2.radius) - (p1.y + p1.radius);
+        const dist = Math.sqrt(dx * dx + dy * dy), min = p1.radius + p2.radius;
+        if (dist < min && dist > 0) {
+          const nx = dx / dist, ny = dy / dist, overlap = min - dist;
+          if (!p1.isDragging && !p2.isDragging) { p1.x -= nx * overlap * 0.5; p1.y -= ny * overlap * 0.5; p2.x += nx * overlap * 0.5; p2.y += ny * overlap * 0.5; }
+          const relVX = p1.vx - p2.vx, relVY = p1.vy - p2.vy, velN = relVX * nx + relVY * ny;
+          if (velN > 0) {
+            const imp = 1.8 * velN / (1 / p1.mass + 1 / p2.mass);
+            if (!p1.isDragging) { p1.vx -= (imp / p1.mass) * nx; p1.vy -= (imp / p1.mass) * ny; }
+            if (!p2.isDragging) { p2.vx += (imp / p2.mass) * nx; p2.vy += (imp / p2.mass) * ny; }
+            if (velN > 0.4) this.playChime(Math.min(velN, 0.4));
+          }
+        }
+      }
+    }
+    this.physics.forEach(p => {
+      if (p.isDragging) {
+        p.el.css('transform', `translate(${p.x}px, ${p.y}px) scale(1.1)`);
+        return;
+      }
+
+      // Idle drift
+      p.vx += (Math.random() - 0.5) * 0.04; p.vy += (Math.random() - 0.5) * 0.04;
+
+      const dx = (p.x + p.radius) - this.mouse.x, dy = (p.y + p.radius) - this.mouse.y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      let scale = 1.0;
+
+      // LIQUID DISPLACEMENT LOGIC
+      if (this.mouse.active && d < 350) {
+        const influence = Math.exp(-(d * d) / (250 * 250 * 0.5));
+
+        // Repulsion (Displacement)
+        if (d > p.radius * 1.2) {
+          p.vx += (dx / d) * influence * 0.6;
+          p.vy += (dy / d) * influence * 0.6;
+        }
+
+        // Compression (Scaling)
+        // Bubbles near the mouse "squeeze" down to 0.85, then expand back
+        const scaleTarget = 1.0 - (influence * 0.15);
+        scale = scaleTarget;
+      }
+
+      p.vx *= 0.992; p.vy *= 0.992; p.x += p.vx; p.y += p.vy;
+
+      const maxX = w - p.radius * 2, maxY = h - p.radius * 2;
+      if (p.x < 0) { p.x = 0; p.vx = Math.abs(p.vx) * 0.7; } else if (p.x > maxX) { p.x = maxX; p.vx = -Math.abs(p.vx) * 0.7; }
+      if (p.y < 0) { p.y = 0; p.vy = Math.abs(p.vy) * 0.7; } else if (p.y > maxY) { p.y = maxY; p.vy = -Math.abs(p.vy) * 0.7; }
+
+      // Final transform with dynamic scale
+      p.el.css('transform', `translate(${p.x}px, ${p.y}px) scale(${scale})`);
+    });
+    requestAnimationFrame(() => this.update());
+  }
+}
+
+// Experience Timeline Slide Logic
+function buildExperienceTimeline(exps) {
+  if (!exps || exps.length === 0) return '';
+  let nodes = '', slides = '';
+  exps.forEach((e, i) => {
+    nodes += `<div class="exp-timeline-node ${i === 0 ? 'active' : ''}" data-index="${i}"></div>`;
+    slides += `<div class="exp-slide ${i === 0 ? 'active' : ''}" data-index="${i}"><div class="exp-slide-header"><span class="exp-period">${e.from} — ${e.isCurrent ? 'Present' : e.to}</span></div><h4 class="exp-designation">${e.designation}</h4><p class="exp-company">${e.company}</p><div class="exp-body">${e.description}</div></div>`;
+  });
+  return `<div class="exp-timeline" data-total="${exps.length}" data-current="0"><div class="exp-spine"><div class="exp-spine-track"></div><div class="exp-spine-fill"></div>${nodes}</div><div class="exp-slides-wrap">${slides}</div><div class="exp-nav"><button class="exp-nav-btn exp-prev" disabled><i class="bi bi-chevron-up"></i></button><span class="exp-counter"><span class="exp-current-num">1</span> / ${exps.length}</span><button class="exp-nav-btn exp-next"><i class="bi bi-chevron-down"></i></button></div></div>`;
+}
+
+function initExperienceTimeline() {
+  const timeline = $('.exp-timeline'); if (!timeline.length) return;
+  const total = parseInt(timeline.data('total')), slides = timeline.find('.exp-slide'), nodes = timeline.find('.exp-timeline-node'), fill = timeline.find('.exp-spine-fill');
+  let current = 0;
+  function goTo(idx) {
+    if (idx < 0 || idx >= total || idx === current) return;
+    const dir = idx > current ? 'down' : 'up';
+    slides.eq(current).removeClass('active').addClass(dir === 'down' ? 'exit-up' : 'exit-down');
+    nodes.eq(current).removeClass('active'); current = idx;
+    slides.eq(current).addClass('active ' + (dir === 'down' ? 'enter-down' : 'enter-up'));
+    nodes.eq(current).addClass('active');
+    setTimeout(() => slides.removeClass('exit-up exit-down enter-up enter-down'), 500);
+    fill.css('height', (current / (total - 1) * 100) + '%');
+    timeline.find('.exp-current-num').text(current + 1);
+    timeline.find('.exp-prev').prop('disabled', current === 0);
+    timeline.find('.exp-next').prop('disabled', current === total - 1);
+  }
+  timeline.find('.exp-prev').on('click', () => goTo(current - 1));
+  timeline.find('.exp-next').on('click', () => goTo(current + 1));
+  nodes.on('click', function () { goTo($(this).data('index')); });
+}
+
+// Modal & Interaction Logic
+$(document).ready(function () {
+  // Project Modal
+  $(document).on('click', '.project-details-btn', function (e) {
+    e.preventDefault();
+    const item = $(this).closest('.portfolio-item');
+    $('#projectModalTitle').text(item.data('name'));
+    $('#projectModalImage').attr('src', item.data('img'));
+    const tech = String(item.data('tech') || '').split(',').filter(t => t.trim()).map(t => `<span class="modal-tech-badge">${t.trim()}</span>`).join('');
+    $('#projectModalTech').html(tech);
+    $('#projectModalDesc').html(item.data('description') || 'No description available.');
+    $('#projectLiveDemo').attr('href', item.data('url'));
+    $('#projectModalBackdrop').addClass('show');
+    $('body').css('overflow', 'hidden');
+  });
+
+  const closeProject = () => { $('#projectModalBackdrop').removeClass('show'); $('body').css('overflow', ''); };
+  $(document).on('click', '#projectModalClose', closeProject);
+  $(document).on('click', '#projectModalBackdrop', (e) => { if ($(e.target).is('#projectModalBackdrop')) closeProject(); });
+
+  const closeTestimonial = () => { $('#testimonial-overlay').removeClass('active'); $('body').css('overflow', ''); };
+  $(document).on('click', '.close-testimonial, #testimonial-overlay', function (e) {
+    if (e.target === this || $(e.target).closest('.close-testimonial').length) closeTestimonial();
+  });
+
+  $(document).on('keydown', (e) => {
+    if (e.key === 'Escape') { closeProject(); closeTestimonial(); }
+  });
+});
+
+$(document).on('click', '.tab ul.tabs li', function () { if ($(this).index() === 2) setTimeout(initExperienceTimeline, 450); });

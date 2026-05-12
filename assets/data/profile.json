@@ -14,7 +14,7 @@
         "degree": "Graduation",
         "about": "I'm a web developer with experience in  Asp.net Core / Mvc, Angular and WordPress. I'm currently working on Fiverr and Upwork as a freelancer in web development. I have a good understanding of Web Development with these technologies. I've got experience related to theme and API Integration.",
         "favicon": "https://cdn.discordapp.com/attachments/980713019342483486/980713039059886130/unknown.png",
-        "image_url": "https://cdn.discordapp.com/attachments/695838950597722205/746773670399311922/Profile_pic_1.png",
+        "image_url": "https://media.discordapp.net/attachments/980713019342483486/981604428115226634/Bg-Cover.jpg?ex=6a01639c&is=6a00121c&hm=4bdb2eff041885f31b3efd83623b61434b30b00200a46d7dd6c3fc916f8aa275&=&format=webp&width=1280&height=800",
         "links": [
             {
                 "name": "twitter",
@@ -44,92 +44,119 @@
         ],
         "education_history": [
             {
-                "institute_name": "BISE Lahore",
-                "from": "2016",
-                "to": "2018",
-                "type": "Matric"
-            },
-            {
-                "institute_name": "Govt. Islamia College Civil Lines",
-                "from": "2018",
-                "to": "2020",
-                "type": "Computer Sciences (ICS)"
-            },
-            {
-                "institute_name": "Virtual University Of Pakistan",
+                "institute_name": "VIRTUAL UNIVESITY OF PAKISTAN",
                 "from": "2021",
-                "to": "Continue",
-                "type": "Computer Science (BS-CS)"
+                "to": "February '25",
+                "type": "Bachelor of Science",
+                "majors": "Majors in Computer Science",
+                "location": "Lahore, Pakistan",
+                "department": "Computer Sciences Department"
             }
         ],
-        "skills": [
+        "skill_categories": [
             {
-                "id": "wordPress",
-                "name": "WordPress",
-                "score": 70
+                "category": "Languages",
+                "items": [
+                    "C#",
+                    "TypeScript",
+                    "JavaScript",
+                    "SQL",
+                    "HTML5",
+                    "CSS3"
+                ]
             },
             {
-                "id": "html",
-                "name": "HTML5",
-                "score": 100
+                "category": "Frameworks & Technologies",
+                "items": [
+                    "ASP.NET",
+                    "ASP.NET Core",
+                    "REST APIs",
+                    "MVC",
+                    "Razor Pages",
+                    "ADO.NET",
+                    "Entity Framework Core",
+                    "Angular",
+                    "Crystal Reports"
+                ]
             },
             {
-                "id": "scss",
-                "name": "CSS/SCSS",
-                "score": 80
+                "category": "Database",
+                "items": [
+                    "MS SQL Server"
+                ]
             },
             {
-                "id": "bootstrap",
-                "name": "BootStrap",
-                "score": 80
+                "category": "Tools & Platforms",
+                "items": [
+                    "Git",
+                    "GitHub",
+                    "Azure DevOps",
+                    "Click-Up",
+                    "SSMS",
+                    "NPM",
+                    "NVVM",
+                    "Nx Workspaces"
+                ]
             },
             {
-                "id": "javascript",
-                "name": "JavaScript",
-                "score": 70
+                "category": "UI Libraries",
+                "items": [
+                    "AG-Grid",
+                    "Angular DataTables",
+                    "Syncfusion",
+                    "Angular Material",
+                    "PrimeNG"
+                ]
             },
             {
-                "id": "ng",
-                "name": "Angular",
-                "score": 60
+                "category": "Reporting Tools",
+                "items": [
+                    "Crystal Reports"
+                ]
             },
             {
-                "id": "csharp",
-                "name": "C#",
-                "score": 50
+                "category": "CMS",
+                "items": [
+                    "WordPress (Elementor, Beaver Builder)",
+                    "Shopify"
+                ]
             },
             {
-                "id": ".net",
-                "name": "Asp.Net",
-                "score": 50
-            }
-        ],
-        "languages": [
-            {
-                "name": "Urdu",
-                "level": "C2"
-            },
-            {
-                "name": "English",
-                "level": "B1"
+                "category": "Others",
+                "items": [
+                    "Clean Architecture",
+                    "Modular Architecture",
+                    "Unit of Work Pattern",
+                    "Repository Pattern",
+                    "Docker",
+                    "Responsive UI Design"
+                ]
             }
         ],
         "experiences": [
             {
-                "company": "Self Learning",
-                "from": "2021",
-                "to": "2022",
+                "company": "Karma Software Solutions",
+                "from": "Dec '25",
+                "to": "Present",
+                "isCurrent": true,
+                "designation": "Full-Stack Developer",
+                "description": "<ul><li>Developing and maintaining enterprise-grade Payroll Management and U.S. Tax E-Filing systems using ASP.NET Core, Angular, and SQL Server.</li><li>Designed and implemented secure, scalable RESTful APIs for payroll processing, employee management, tax workflows, and compliance-focused business operations.</li><li>Built reusable and responsive Angular components for complex data-driven enterprise applications and reporting dashboards.</li><li>Applied Repository, Unit of Work, and clean architecture principles to improve code maintainability, scalability, and development efficiency.</li><li>Collaborated with cross-functional teams on system architecture, feature planning, code reviews, debugging, and production issue resolution.</li><li>Optimized application performance, database queries, and API response times for improved reliability and large-scale data handling.</li><li>Contributed to secure data handling practices and enterprise-level workflow enhancements within payroll and U.S. tax filing systems.</li></ul>"
+            },
+            {
+                "company": "PERSPECTIVE-V",
+                "from": "Oct '22",
+                "to": "Dec '25",
                 "isCurrent": false,
-                "designation": "Web Developer / Quality Insurance",
-                "description": "Worked as an Angular developer  as well as a QA. The project was related to Account Management System which was based on a Subscription Model. In this project I worked under a mentor who was kind enough to give me his valuable time for my growth.<br> <b>Tools:</b> <br> Front-end: Html, Scss, Bootstrap <br> Back-end: Asp.Net Core Web Api, <br> Authentication: JSON Web Tokens(JWT) <br> Framework: Angular <br> 3rd Party Modules: Syncfusion"
+                "designation": "Full-Stack Web Developer",
+                "description": "Engaged on-demand to build and enhance web applications across the full stack, adapting to a variety of project scopes and development workflows.<br><br><b>Key Achievements:</b><ul><li>Delivered front-end and backend functionality using ASP.NET 6 and Angular for performance-critical applications.</li><li>Applied Nx-Workspaces and modular architecture for scalable code organization and efficient deployment.</li><li>Integrated rich UI components using AG-Grid, Angular DataTables, and Syncfusion libraries.</li><li>Designed and consumed RESTful APIs, ensuring secure data transactions and smooth frontend-backend communication.</li></ul><br><b>Highlighted Projects:</b><ul><li>Learn Quran Live Academy (Asp.Net 6)</li><li>Client Management Portal (Asp.Net + Angular)</li><li>Password Manager (Asp.Net + Angular)</li><li>Home Sports Era (Asp.Net + Angular)</li></ul>"
             }
         ],
         "certifications": [
             {
                 "name": "WORDPRESS",
-                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982308199938023454/unknown.png",
+                "img": "https://media.discordapp.net/attachments/980713019342483486/982308199938023454/unknown.png?ex=6a00a74d&is=69ff55cd&hm=ae8b69eeb6b71fe90060e43eea52ea181be6f0e802ed63b64be6744720fd5325&=&format=webp&quality=lossless&width=640&height=640",
                 "source": "DigiSkills",
-                "url": "https://cdn.discordapp.com/attachments/982297780733231124/982309084407668846/unknown.png"
+                "url": "https://media.discordapp.net/attachments/982297780733231124/982309084407668846/unknown.png?ex=6a00a820&is=69ff56a0&hm=b66366c83d6e7846c4f3d94f49f50a75d4045c57f812bc7aec824e90441f56bf&=&format=webp&quality=lossless&width=971&height=680"
             },
             {
                 "name": "HTML Essential Training",
@@ -168,40 +195,19 @@
                 "url": "https://cdn.discordapp.com/attachments/982297780733231124/982298094471364648/unknown.png"
             }
         ],
-        "computer_languages": [
-            "C/C++",
-            "Javascript + Typescript",
-            "Dart [planning]",
-            "Rust [planning]"
-        ],
-        "technologies": [
-            {
-                "name": "Web",
-                "items": [
-                    "HTML5",
-                    "CSS",
-                    "BootStrap",
-                    "JAVASCRIPT",
-                    "Typescript",
-                    "Angular",
-                    "ASP.NET MVC",
-                    "Wordpress"
-                ]
-            },
-            {
-                "name": "Desktop",
-                "items": [
-                    "Electron",
-                    "Tauri [planning"
-                ]
-            }
+        "interests": [
+            "Software Architecture",
+            "System Design",
+            "Tourism & Sprots",
+            "Social Networking"
         ],
         "projects": [
             {
                 "name": "COCOA",
-                "img": "https://cdn.discordapp.com/attachments/982520374719819777/982521614472183868/unknown.png",
-                "tech": "Angular",
-                "url": ""
+                "img": "https://media.discordapp.net/attachments/982520374719819777/982521614472183868/unknown.png?ex=6a00c54f&is=69ff73cf&hm=d241aaf4bff083442bf4798b8fa6b2f72400f454100596f12d45bc376a37abca&=&format=webp&quality=lossless&width=1250&height=605",
+                "tech": "Angular, TypeScript",
+                "url": "",
+                "description": "COCOA is a high-performance web application built with Angular, designed for streamlined content management and interactive user experiences. It features a modern modular architecture, state-of-the-art UI components, and integrated real-time data synchronization."
             }
         ],
         "testimonial": [
@@ -210,7 +216,14 @@
                 "designation": "Full Stack Developer",
                 "link": "https://pk.linkedin.com/in/uk-gorsi",
                 "img": "https://usman-khan-01.github.io/assets/images/profile/profile-image.jpg",
-                "endorsement": "Waqar and I both worked on a Account Management System in which we used angular and Asp.Net Core as backend api. We used JWT (Jason Web Tokens) for authentication and followed the N-Layerd Architecture along with Unit of Work and Repository patterns."
+                "endorsement": "Waqar and I both worked on an Account Management System in which we used angular and Asp.Net Core as backend api. We used JWT (Jason Web Tokens) for authentication and followed the N-Layerd Architecture along with Unit of Work and Repository patterns."
+            },
+            {
+                "name": "Ali Iqbal",
+                "designation": "Software Engineer",
+                "link": "https://www.linkedin.com/in/ali-iqbal-30155318a/",
+                "img": "https://i.pravatar.cc/150?u=sarah",
+                "endorsement": "Very good and excellent experience."
             }
         ],
         "progress": [

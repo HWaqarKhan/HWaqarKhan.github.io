@@ -1,5 +1,31 @@
 
-document.querySelector('.console').classList.add('hidden');
+document.addEventListener('DOMContentLoaded', function () {
+  var consoleEl = document.querySelector('.console');
+  if (consoleEl) consoleEl.classList.add('hidden');
+});
+
+/**
+ * Smoothly scrolls a section element to the top using requestAnimationFrame.
+ */
+function smoothScrollToTop(el) {
+  if (!el || el.scrollTop === 0) return;
+  const start = el.scrollTop;
+  const duration = 400;
+  const startTime = performance.now();
+
+  function step(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.scrollTop = start * (1 - ease);
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  }
+  requestAnimationFrame(step);
+}
+
 (function () {
   "use strict";
 
@@ -92,34 +118,28 @@ document.querySelector('.console').classList.add('hidden');
             item.classList.remove('section-show')
           })
           section.classList.add('section-show')
-
+          smoothScrollToTop(section);
         }, 350);
       } else {
         sections.forEach((item) => {
           item.classList.remove('section-show')
         })
         section.classList.add('section-show')
+        smoothScrollToTop(section);
       }
 
       // scrollto(this.hash)
     }
   }, true)
 
+  /*
   new Swiper('.testimonials-swiper', {
-    // slidesPerView: 1,
-    // spaceBetween: 30,
-    // loop: true,
-    // rewind: true,
-    effect: "coverflow",
-    mousewheel: true,
     keyboard: {
       enabled: true,
     },
-    // freeMode:true,
     grabCursor: true,
     pagination: {
       el: ".swiper-pagination",
-      // type: "progressbar",
       clickable: true,
       dynamicBullets: true,
     },
@@ -128,6 +148,55 @@ document.querySelector('.console').classList.add('hidden');
       prevEl: ".swiper-button-prev",
     },
   });
+  */
+
+  /**
+   * Preloader
+   */
+  let preloader = select('#preloader');
+  if (preloader) {
+    window.addEventListener('load', () => {
+      preloader.style.opacity = '0';
+      preloader.style.visibility = 'hidden';
+      setTimeout(() => {
+        preloader.remove();
+      }, 500);
+    });
+  }
+
+  /**
+   * Animation Intersection Observer
+   */
+  const animateElements = document.querySelectorAll('.section-title, .info-box, .about-me .content, .skill-category, .experience-item, .portfolio-item');
+  animateElements.forEach((el, index) => {
+    el.classList.add('animate-element');
+    // Alternate fade directions based on type
+    if (el.classList.contains('section-title')) {
+      el.classList.add('animate-fade-down');
+    } else {
+      el.classList.add('animate-fade-up');
+    }
+  });
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.animate-element').forEach(el => {
+    observer.observe(el);
+  });
+
 })()
 
 // About Tabs 
@@ -144,30 +213,50 @@ $(document).ready(function () {
       $(this).closest('li').addClass('current');
 
       tab.find('.tab_content').find('div.tabs_item').not('div.tabs_item:eq(' + index + ')').slideUp();
-      tab.find('.tab_content').find('div.tabs_item:eq(' + index + ')').slideDown();
+      tab.find('.tab_content').find('div.tabs_item:eq(' + index + ')').slideDown(400, function () {
+        // Smoothly scroll the active section to top when switching tabs
+        var activeSection = document.querySelector('section.section-show');
+        if (activeSection) smoothScrollToTop(activeSection);
+      });
 
       g.preventDefault();
     });
   })(jQuery);
 
 });
-// Sending EMail
-
+// Sending Email
 const form = document.querySelector('.contact_form');
-function success() {
-  swal({
-    title: "Thank you for contacting!",
-    text: "Successfully Sent Message!\nI'll contact you on provided Mail.",
-    icon: "success"
-  });
+
+function showFormFeedback(type, message) {
+  const feedback = form.querySelector('.form-feedback');
+  const btn = form.querySelector('.btn-send-msg');
+  feedback.className = 'form-feedback mt-3';
+
+  if (type === 'loading') {
+    feedback.classList.add('loading');
+    feedback.style.display = 'block';
+    feedback.textContent = '';
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+  } else if (type === 'success') {
+    feedback.classList.add('sent-message');
+    feedback.style.display = 'block';
+    feedback.textContent = message;
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+  } else if (type === 'error') {
+    feedback.classList.add('error-message');
+    feedback.style.display = 'block';
+    feedback.textContent = message;
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+  } else {
+    feedback.style.display = 'none';
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+  }
 }
-function error() {
-  swal({
-    title: "Please Try Again!",
-    text: "Something Went wrong!",
-    icon: "error"
-  });
-}
+
 function sendEmail() {
   emailjs.init("jZodjXjZwfNf2QSco");
   var params = {
@@ -175,13 +264,19 @@ function sendEmail() {
     userEmail: $('.sender').val(),
     subject: $('.senderSubject').val(),
     message: $('.message').val()
-  }
-  form.reset();
+  };
+
+  showFormFeedback('loading');
+
   emailjs.send("service_wjphzpa", "template_iwtvq1f", params).then(function (res) {
-    if (res.status == '200') {
-      success()
+    if (res.status == 200) {
+      form.reset();
+      showFormFeedback('success', "Message sent successfully! I'll get back to you soon.");
+      setTimeout(() => showFormFeedback('hide'), 6000);
     } else {
-      error()
+      showFormFeedback('error', 'Something went wrong. Please try again.');
     }
-  })
+  }).catch(function () {
+    showFormFeedback('error', 'Failed to send message. Please check your connection and try again.');
+  });
 }

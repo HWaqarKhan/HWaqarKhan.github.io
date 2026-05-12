@@ -35,88 +35,48 @@ profile:
     url: https://www.youtube.com/channel/UCWH0Pxqat1LgosgGINf4TCg?sub_confirmation=1
     icon: bi bi-youtube
   education_history:
-  - institute_name: Board of Intermediate and Secondary Education
-    from: '2016'
-    to: '2018'
-    type: Metric
-    degree: High School Degree
-    description: Completed High School education in 2018 from the Board of Intermediate
-      and Secondary Education
-  - institute_name: Govt. Islamia College Civil Lines
-    from: '2018'
-    to: '2020'
-    type: Intermediate in Computer Sciences
-    degree: Intermediate Degree
-    description: Completed college education in 2020 from Govt. Islamia College Civil
-      Lines.
-  - institute_name: Virtual University Of Pakistan
+  - institute_name: VIRTUAL UNIVESITY OF PAKISTAN
     from: '2021'
-    to: continue
-    type: Bachelor Degree Of Computer Science
-    degree: Bachelor's Degree
-    description: Doing bachelor's degree in Computer Science form Virtual University
-      of Pakistan.
-  skills:
-  - id: html
-    name: HTML5
-    score: 100
-  - id: scss
-    name: CSS/SCSS
-    score: 80
-  - id: bootstrap
-    name: BootStrap
-    score: 80
-  - id: javascript
-    name: JavaScript
-    score: 60
-  - id: ts
-    name: TS
-    score: 70
-  - id: ng
-    name: Angular
-    score: 70
-  - id: csharp
-    name: C#
-    score: 40
-  languages:
-  - name: Urdu
-    level: C2
-  - name: English
-    level: B1
+    to: "February '25"
+    type: Bachelor of Science
+    majors: Majors in Computer Science
+    location: "Lahore, Pakistan"
+    department: Computer Sciences Department
+  skill_categories:
+  - category: Languages
+    items: ["C#", "TypeScript", "JavaScript", "SQL", "HTML5", "CSS3"]
+  - category: Frameworks & Technologies
+    items: ["ASP.NET", "ASP.NET Core", "REST APIs", "MVC", "Razor Pages", "ADO.NET", "Entity Framework Core", "Angular", "Crystal Reports"]
+  - category: Database
+    items: ["MS SQL Server"]
+  - category: Tools & Platforms
+    items: ["Git", "GitHub", "Azure DevOps", "Click-Up", "SSMS", "NPM", "NVVM", "Nx Workspaces"]
+  - category: UI Libraries
+    items: ["AG-Grid", "Angular DataTables", "Syncfusion", "Angular Material", "PrimeNG"]
+  - category: Reporting Tools
+    items: ["Crystal Reports"]
+  - category: CMS
+    items: ["WordPress (Elementor, Beaver Builder)", "Shopify"]
+  - category: Others
+    items: ["Clean Architecture", "Modular Architecture", "Unit of Work Pattern", "Repository Pattern", "Docker", "Responsive UI Design"]
   experiences:
-  - company: Punjab Cooperative Board for Liquidation
-    from: Feb 2022
-    to: continue
-    isCurrent: no
-    designation: Computer Operator
-    description: ''
-  - designation: Tutor
-    company: Teach Quran-e-Pak
-    from: '2016'
-    to: continue
-    isCurrent: on
-    description: I've been teaching the Holy Quran since 2016 and I've experienced
-      the teaching on both National and International levels
-  computer_languages:
-  - C/C++
-  - Javascript + Typescript
-  - Dart [planning]
-  - Rust [planning]
-  technologies:
-  - name: Web
-    items:
-    - HTML5
-    - CSS
-    - BootStrap
-    - JAVASCRIPT
-    - Typescript
-    - Angular
-    - ASP.NET MVC
-    - Wordpress
-  - name: Desktop
-    items:
-    - Electron
-    - Tauri [planning
+  - company: Karma Software Solutions
+    from: "Dec '25"
+    to: Present
+    isCurrent: true
+    designation: Full-Stack Developer
+    description: "<ul><li>Developing and maintaining enterprise-grade Payroll Management and U.S. Tax E-Filing systems using ASP.NET Core, Angular, and SQL Server.</li><li>Designed and implemented secure, scalable RESTful APIs for payroll processing, employee management, tax workflows, and compliance-focused business operations.</li><li>Built reusable and responsive Angular components for complex data-driven enterprise applications and reporting dashboards.</li><li>Applied Repository, Unit of Work, and clean architecture principles to improve code maintainability, scalability, and development efficiency.</li><li>Collaborated with cross-functional teams on system architecture, feature planning, code reviews, debugging, and production issue resolution.</li><li>Optimized application performance, database queries, and API response times for improved reliability and large-scale data handling.</li><li>Contributed to secure data handling practices and enterprise-level workflow enhancements within payroll and U.S. tax filing systems.</li></ul>"
+  - company: PERSPECTIVE-V
+    from: "Oct '22"
+    to: "Dec '25"
+    isCurrent: false
+    designation: Full-Stack Web Developer
+    description: "Engaged on-demand to build and enhance web applications across the full stack, adapting to a variety of project scopes and development workflows.<br><br><b>Key Achievements:</b><ul><li>Delivered front-end and backend functionality using ASP.NET 6 and Angular for performance-critical applications.</li><li>Applied Nx-Workspaces and modular architecture for scalable code organization and efficient deployment.</li><li>Integrated rich UI components using AG-Grid, Angular DataTables, and Syncfusion libraries.</li><li>Designed and consumed RESTful APIs, ensuring secure data transactions and smooth frontend-backend communication.</li></ul><br><b>Highlighted Projects:</b><ul><li>Learn Quran Live Academy (Asp.Net 6)</li><li>Client Management Portal (Asp.Net + Angular)</li><li>Password Manager (Asp.Net + Angular)</li><li>Home Sports Era (Asp.Net + Angular)</li></ul>"
+  interests:
+  - Software Architecture
+  - System Design
+  - Tourism & Sprots
+  - Social Networking
   projects:
   - name: Resume
     img: assets/img/portfolio/portfolio-1.jpg
@@ -127,20 +87,29 @@ profile:
     name: Usman Khan
     designation: Web Developer
     link: https://www.upwork.com/freelancers/~012ad4fc48eef56697
-    img: "../../assets/img/testimonials/Usman-Khan.jpg"
+    img: "https://usman-khan-01.github.io/assets/images/profile/profile-image.jpg"
     endorsement: Waqar and I both worked on an Account Management System in which we
       used angular and Asp.Net Core as backend API. We used JWT (Jason Web Tokens)
       for authentication and followed the N-Layered Architecture along with the Unit of
       Work and Repository patterns.
   - id: 2
-    name: Usman Khan
-    designation: Web Developer
-    link: https://www.upwork.com/freelancers/~012ad4fc48eef56697
-    img: "../../assets/img/testimonials/Usman-Khan.jpg"
-    endorsement: Waqar and I both worked on an Account Management System in which we
-      used angular and Asp.Net Core as backend API. We used JWT (Jason Web Tokens)
-      for authentication and followed the N-Layered Architecture along with the Unit of
-      Work and Repository patterns.
+    name: Sarah Jenkins
+    designation: Project Manager
+    link: "#"
+    img: "https://i.pravatar.cc/150?u=sarah"
+    endorsement: Waqar is an exceptional developer who consistently delivers high-quality code. His ability to solve complex problems with elegant solutions is impressive. He was a key asset in our latest Angular project.
+  - id: 3
+    name: Michael Chen
+    designation: Senior Architect
+    link: "#"
+    img: "https://i.pravatar.cc/150?u=michael"
+    endorsement: Working with Waqar on the enterprise API was a great experience. He has a deep understanding of Clean Architecture and C# best practices. His documentation skills are also top-notch.
+  - id: 4
+    name: Emily Rodriguez
+    designation: UI/UX Designer
+    link: "#"
+    img: "https://i.pravatar.cc/150?u=emily"
+    endorsement: As a designer, I appreciate Waqar's attention to detail. He perfectly translated my Figma designs into a responsive and performant Angular application. He really understands the user experience.
   progress:
   - name: Happy Client
     count: '20'

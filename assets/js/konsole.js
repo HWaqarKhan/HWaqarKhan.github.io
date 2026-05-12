@@ -48,6 +48,8 @@ class Konsole {
     kommands = [];
 
     validInput = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 !@#$%^&*()-_=+~`?.><,|/\\";
+    commandHistory = [];
+    historyIndex = -1;
 
     constructor(selector, _konsoleSettings = new KonsoleSettings()) {
         this.konsoleSettings = _konsoleSettings;
@@ -129,75 +131,98 @@ class Konsole {
     }
 
     awaitKommand() {
-        // this.helperMsg.append(this.konsoleSettings.konsoleHelpMsg());
-        // const hideMsg = () => this.helperMsg = undefined;
-        // setTimeout(hideMsg, 1000);
         this.elem.append(this.konsoleSettings.konsoleLineMarkup());
-        $("#Console").off("keydown").keydown((e) => {
-
-            // cancel if other elements like form inputs are focused
-            // if(document.activeElement != document.body || !this.elem.hasClass("active")) return;
-            // if (!this.elem.is(":focus")) return;
-
-            // console.log(e.code);
-
+        $(document).off("keydown.konsole").on("keydown.konsole", (e) => {
+            
+            // Only capture input if the Console section is currently visible
+            const consoleSection = document.getElementById('Console');
+            if (!consoleSection || !consoleSection.classList.contains('section-show')) return;
+            
+            // Do not capture if user is typing in an input field somewhere else
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
 
             let lastLine = $(".KonsoleLine:last span.KonsoleLineText");
+            let cl = lastLine.text();
 
-            // console.log("🚀 ~ file: konsole.js ~ line 145 ~ Konsole ~ $ ~ lastLine", lastLine)
-
-            let cl;
-
-            if (this.validInput.includes(e.key)) {
-                lastLine.text(lastLine.text() + e.key)
+            if (this.validInput.includes(e.key) && e.key.length === 1) {
+                lastLine.text(cl + e.key);
             }
             else if (e.code === "Backspace") {
-                lastLine.text(lastLine.text().substr(0, lastLine.text().length - 1));
+                lastLine.text(cl.substring(0, cl.length - 1));
+            }
+            else if (e.code === "Tab") {
+                e.preventDefault();
+                if (!cl.trim()) return;
+                
+                let matches = this.kommands.filter(k => k.name.startsWith(cl.trim().toLowerCase()));
+                if (matches.length === 1) {
+                    lastLine.text(matches[0].name + " ");
+                } else if (matches.length > 1) {
+                    $(document).off("keydown.konsole");
+                    this.print(matches.map(m => m.name).join("    ")).then(() => {
+                        this.awaitKommand();
+                        // Pre-fill what they typed
+                        $(".KonsoleLine:last span.KonsoleLineText").text(cl);
+                    });
+                }
+            }
+            else if (e.code === "ArrowUp") {
+                e.preventDefault();
+                if (this.commandHistory.length > 0 && this.historyIndex < this.commandHistory.length - 1) {
+                    this.historyIndex++;
+                    lastLine.text(this.commandHistory[this.commandHistory.length - 1 - this.historyIndex]);
+                }
+            }
+            else if (e.code === "ArrowDown") {
+                e.preventDefault();
+                if (this.historyIndex > 0) {
+                    this.historyIndex--;
+                    lastLine.text(this.commandHistory[this.commandHistory.length - 1 - this.historyIndex]);
+                } else if (this.historyIndex === 0) {
+                    this.historyIndex = -1;
+                    lastLine.text("");
+                }
             }
             else if (e.code === "Enter") {
-                $("body").off("keydown");
-                // console.log(this.elem.textContent);
-
-                // trim and replace multiple spaces with only a single one
-                cl = lastLine.text().trim().replace(/  +/g, "");
-                localStorage.setItem("command", cl)
-                showCommand = localStorage.getItem("command")
-                // console.log(localStorage.getItem("command"));
-                // lastLine = localStorage.getItem("command")
+                $(document).off("keydown.konsole");
+                
+                cl = cl.trim().replace(/  +/g, " ");
+                
+                if (cl) {
+                    // Prevent consecutive duplicates in history
+                    if (this.commandHistory[this.commandHistory.length - 1] !== cl) {
+                        this.commandHistory.push(cl);
+                    }
+                    this.historyIndex = -1;
+                }
+                
                 let command = "";
                 let arg = "";
 
                 if (cl.indexOf(" ") == -1) {
                     command = cl;
-                    // localStorage.setItem("command", command)
-                    // console.log(localStorage.getItem("command"));
-                    // lastLine = localStorage.getItem("command")
                 }
                 else {
-                    command = cl.substr(0, cl.indexOf(" "));
-                    arg = cl.substr(cl.indexOf(" ") + 1);
+                    command = cl.substring(0, cl.indexOf(" "));
+                    arg = cl.substring(cl.indexOf(" ") + 1);
                 }
 
-                // console.log("command:",command,"arg:",arg);
-
-                let kommand = this.kommands.find(k => k.name == command);
+                let kommand = this.kommands.find(k => k.name.toLowerCase() === command.toLowerCase());
 
                 if (kommand) {
                     kommand.func(arg).then(() => {
                         this.awaitKommand();
-                    })
+                    });
+                }
+                else if (command === "") {
+                    this.awaitKommand();
                 }
                 else {
-                    this.print("invalid command.").then(() => {
+                    this.print(`bash: ${command}: command not found`).then(() => {
                         this.awaitKommand();
                     });
                 }
             }
-
-            else if (e.code === "ArrowUp") {
-                $('.KonsoleLineText').text(showCommand)
-            }
-
         });
     }
 
