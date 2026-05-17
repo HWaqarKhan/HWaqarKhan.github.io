@@ -61,6 +61,7 @@ function smoothScrollToTop(el) {
    */
   on('click', '.mobile-nav-toggle', function (e) {
     select('#navbar').classList.toggle('navbar-mobile')
+    document.body.classList.toggle('mobile-nav-active')
     this.classList.toggle('bi-list')
     this.classList.toggle('bi-x')
     // $('#Console').classList.add('hidden');
@@ -86,17 +87,20 @@ function smoothScrollToTop(el) {
 
       if (navbar.classList.contains('navbar-mobile')) {
         navbar.classList.remove('navbar-mobile')
+        document.body.classList.remove('mobile-nav-active')
         let navbarToggle = select('.mobile-nav-toggle')
         navbarToggle.classList.toggle('bi-list')
         navbarToggle.classList.toggle('bi-x')
       }
       if (this.hash == "#Console") {
         document.querySelector('.console').classList.remove('hidden');
-        konsole.print("Initializing terminal...");
-        setTimeout(() => {
-          konsole.exec("neofetch");
-        }, 500);
-        konsole.awaitKommand();
+        konsole.elem.html(""); // Clear any previous prints to start fresh
+        konsole.print("Initializing Waqar OS terminal...")
+          .then(() => {
+            setTimeout(() => {
+              konsole.exec("neofetch");
+            }, 600);
+          });
         konsole.elem.focus();
       } else {
         document.querySelector('.console').classList.add('hidden');
@@ -111,6 +115,8 @@ function smoothScrollToTop(el) {
         return;
       }
 
+      const isExpClick = this.classList.contains('scrollto-exp');
+
       if (!header.classList.contains('header-top')) {
         header.classList.add('header-top')
         setTimeout(function () {
@@ -118,14 +124,28 @@ function smoothScrollToTop(el) {
             item.classList.remove('section-show')
           })
           section.classList.add('section-show')
-          smoothScrollToTop(section);
+          if (isExpClick) {
+            setTimeout(() => {
+              const expTitle = document.getElementById('experience-title');
+              if (expTitle) expTitle.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          } else {
+            smoothScrollToTop(section);
+          }
         }, 350);
       } else {
         sections.forEach((item) => {
           item.classList.remove('section-show')
         })
         section.classList.add('section-show')
-        smoothScrollToTop(section);
+        if (isExpClick) {
+          setTimeout(() => {
+            const expTitle = document.getElementById('experience-title');
+            if (expTitle) expTitle.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        } else {
+          smoothScrollToTop(section);
+        }
       }
 
       // scrollto(this.hash)
@@ -199,31 +219,7 @@ function smoothScrollToTop(el) {
 
 })()
 
-// About Tabs 
-$(document).ready(function () {
-
-  (function ($) {
-    $('.tab ul.tabs').addClass('active').find('> li:eq(0)').addClass('current');
-
-    $('.tab ul.tabs li').click(function (g) {
-      var tab = $(this).closest('.tab'),
-        index = $(this).closest('li').index();
-
-      tab.find('ul.tabs > li').removeClass('current');
-      $(this).closest('li').addClass('current');
-
-      tab.find('.tab_content').find('div.tabs_item').not('div.tabs_item:eq(' + index + ')').slideUp();
-      tab.find('.tab_content').find('div.tabs_item:eq(' + index + ')').slideDown(400, function () {
-        // Smoothly scroll the active section to top when switching tabs
-        var activeSection = document.querySelector('section.section-show');
-        if (activeSection) smoothScrollToTop(activeSection);
-      });
-
-      g.preventDefault();
-    });
-  })(jQuery);
-
-});
+// Tabs removed in favor of single-page vertical scrolling layout
 // Sending Email
 const form = document.querySelector('.contact_form');
 

@@ -59,9 +59,8 @@ var links = ".social-links";
 
     // Render Components
     $(skills).html(RenderList(p.skill_categories, consts.SKILLS));
-    $(exps).html(buildExperienceTimeline(p.experiences));
-    $(education).html(RenderList(p.education_history, consts.EDUCATION));
-    $(cert).html(RenderList(p.certifications, consts.CERTIFICATION));
+    $('#credentials_stack').html(buildCredentialsList(p));
+    $('#experience_timeline_vertical').html(buildVerticalExperienceTimeline(p.experiences));
     $(progress).html(RenderList(p.progress, consts.PROGRESS));
     $(testimonial).html(RenderList(p.testimonial, consts.TESTIMONIAL));
     $(portfolio).html(RenderList(p.projects, consts.PORTFOLIO));
@@ -139,7 +138,7 @@ function getPortfolios(e) {
 }
 
 function getProgress(e) {
-  return `<div class="col-lg-3 col-md-6"><div class="count-box"><i class="${e.icon}"></i><span>${e.count}</span><p>${e.name}</p></div></div>`;
+  return `<div class="col-lg-3 col-md-6 col-6"><div class="count-box"><i class="${e.icon}"></i><span>${e.count}</span><p>${e.name}</p></div></div>`;
 }
 
 function getTestimonials(e) {
@@ -266,7 +265,7 @@ class LiquidNebula {
     [1, 3.2, 5.5].forEach((r, i) => {
       const osc = this.audioCtx.createOscillator(); const gain = this.audioCtx.createGain();
       osc.type = 'sine'; osc.frequency.setValueAtTime(600 * r, now);
-      gain.gain.setValueAtTime(0, now); gain.gain.linearRampToValueAtTime((0.03 / (i + 1)) * vol, now + 0.01); gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5 / r);
+      gain.gain.setValueAtTime(0, now); gain.gain.linearRampToValueAtTime((0.08 / (i + 1)) * vol, now + 0.01); gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5 / r);
       osc.connect(gain); gain.connect(this.audioCtx.destination); osc.start(now); osc.stop(now + 0.6);
     });
   }
@@ -333,96 +332,70 @@ class LiquidNebula {
   }
 }
 
-// Experience Timeline Slide Logic
-function buildExperienceTimeline(exps) {
-  if (!exps || exps.length === 0) return '';
-  let nodes = '', slides = '';
-  exps.forEach((e, i) => {
-    nodes += `<div class="exp-timeline-node ${i === 0 ? 'active' : ''}" data-index="${i}"></div>`;
-    slides += `<div class="exp-slide ${i === 0 ? 'active' : ''}" data-index="${i}"><div class="exp-slide-header"><span class="exp-period">${e.from} — ${e.isCurrent ? 'Present' : e.to}</span></div><h4 class="exp-designation">${e.designation}</h4><p class="exp-company">${e.company}</p><div class="exp-body">${e.description}</div></div>`;
+// Credentials List Builder
+function buildCredentialsList(p) {
+  const credentials = [
+    {
+      title: "Bachelor of Computer Science (Graduation)",
+      subtitle: "Lahore District, Punjab, Pakistan",
+      icon: '<i class="bi bi-mortarboard-fill"></i>'
+    },
+    {
+      title: "Microsoft Certified: Azure Developer Associate",
+      subtitle: "Microsoft",
+      icon: '<i class="bi bi-cloud-fill"></i>'
+    },
+    {
+      title: "Advanced Angular Components & Architecture - Udemy",
+      subtitle: "Udemy",
+      icon: '<i class="bi bi-shield-fill"></i>'
+    },
+    {
+      title: "Freelance Web Developer (5 Star Rating - 20+ projects)",
+      subtitle: "Fiverr & Upwork",
+      icon: '<i class="bi bi-star-fill"></i>'
+    }
+  ];
+
+  let html = '';
+  credentials.forEach(c => {
+    html += `
+      <div class="credential-item">
+        <div class="credential-icon">
+          ${c.icon}
+        </div>
+        <div class="credential-info">
+          <h4>${c.title}</h4>
+          <p>${c.subtitle}</p>
+        </div>
+      </div>
+    `;
   });
-  return `<div class="exp-timeline" data-total="${exps.length}" data-current="0"><div class="exp-spine"><div class="exp-spine-track"></div><div class="exp-spine-fill"></div>${nodes}</div><div class="exp-slides-wrap">${slides}</div><div class="exp-nav"><button class="exp-nav-btn exp-prev" disabled><i class="bi bi-chevron-up"></i></button><span class="exp-counter"><span class="exp-current-num">1</span> / ${exps.length}</span><button class="exp-nav-btn exp-next"><i class="bi bi-chevron-down"></i></button></div></div>`;
+  return html;
 }
 
-function initExperienceTimeline() {
-  const timeline = $('.exp-timeline'); if (!timeline.length) return;
-  const total = parseInt(timeline.data('total')), slides = timeline.find('.exp-slide'), nodes = timeline.find('.exp-timeline-node'), fill = timeline.find('.exp-spine-fill');
-  let current = 0;
-  function goTo(idx) {
-    if (idx < 0 || idx >= total || idx === current) return;
-    const dir = idx > current ? 'down' : 'up';
-    slides.eq(current).removeClass('active').addClass(dir === 'down' ? 'exit-up' : 'exit-down');
-    nodes.eq(current).removeClass('active'); current = idx;
-    slides.eq(current).addClass('active ' + (dir === 'down' ? 'enter-down' : 'enter-up'));
-    nodes.eq(current).addClass('active');
-    setTimeout(() => slides.removeClass('exit-up exit-down enter-up enter-down'), 400);
-    fill.css('height', (current / (total - 1) * 100) + '%');
-    timeline.find('.exp-current-num').text(current + 1);
-    timeline.find('.exp-prev').prop('disabled', false); // Never disable, use for tab handoff
-    timeline.find('.exp-next').prop('disabled', false);
-  }
-
-  timeline.find('.exp-prev').on('click', () => {
-    if (current === 0) {
-      // Go to Skills Tab (Index 1)
-      $('.tab ul.tabs li').eq(1).click();
-    } else {
-      goTo(current - 1);
-    }
+// Vertical Chronological Experience Timeline
+function buildVerticalExperienceTimeline(exps) {
+  if (!exps || exps.length === 0) return '';
+  let html = '<div class="vertical-timeline-track"></div>';
+  exps.forEach((e, i) => {
+    html += `
+      <div class="vertical-timeline-item">
+        <div class="vertical-timeline-marker">
+          <div class="marker-dot"></div>
+        </div>
+        <div class="vertical-timeline-content glass-card">
+          <div class="timeline-header d-flex flex-wrap justify-content-between align-items-center mb-2">
+            <h4 class="timeline-designation m-0">${e.designation}</h4>
+            <span class="timeline-period">${e.from} — ${e.isCurrent ? "Present" : e.to}</span>
+          </div>
+          <h5 class="timeline-company mb-3">${e.company}</h5>
+          <div class="timeline-body">${e.description}</div>
+        </div>
+      </div>
+    `;
   });
-
-  timeline.find('.exp-next').on('click', () => {
-    if (current === total - 1) {
-      // Go to Certifications Tab (Index 3)
-      $('.tab ul.tabs li').eq(3).click();
-    } else {
-      goTo(current + 1);
-    }
-  });
-
-  // Mouse Wheel Support
-  let lastWheelTime = 0;
-  timeline.on('wheel', function(e) {
-    const now = Date.now();
-    if (now - lastWheelTime < 250) return; // Snappier debounce
-    
-    if (e.originalEvent.deltaY > 0) {
-      if (current < total - 1) {
-        e.preventDefault();
-        goTo(current + 1);
-        lastWheelTime = now;
-      }
-    } else {
-      if (current > 0) {
-        e.preventDefault();
-        goTo(current - 1);
-        lastWheelTime = now;
-      }
-    }
-  });
-
-  // Touch Swipe Support
-  let touchStartY = 0;
-  timeline.on('touchstart', function(e) {
-    touchStartY = e.originalEvent.touches[0].clientY;
-  });
-
-  timeline.on('touchend', function(e) {
-    const touchEndY = e.originalEvent.changedTouches[0].clientY;
-    const diff = touchStartY - touchEndY;
-    
-    if (Math.abs(diff) > 50) { // Swipe threshold
-      if (diff > 0) { // Swipe Up -> Next
-        if (current < total - 1) goTo(current + 1);
-        else $('.tab ul.tabs li').eq(3).click();
-      } else { // Swipe Down -> Prev
-        if (current > 0) goTo(current - 1);
-        else $('.tab ul.tabs li').eq(1).click();
-      }
-    }
-  });
-
-  nodes.on('click', function () { goTo($(this).data('index')); });
+  return html;
 }
 
 // Modal & Interaction Logic
@@ -478,5 +451,3 @@ $(document).ready(function () {
     $(this).css('transform', 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
   });
 });
-
-$(document).on('click', '.tab ul.tabs li', function () { if ($(this).index() === 2) setTimeout(initExperienceTimeline, 50); });

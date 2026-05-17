@@ -249,6 +249,7 @@ h6 {
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  z-index: 9999 !important; /* Keep header and mobile hamburger ALWAYS above active sections */
 }
 
 #header.header-top .social-links,
@@ -425,33 +426,35 @@ h6 {
   right: 0;
   left: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.9);
-  transition: 0.3s;
-  z-index: 999;
+  background: rgba(0, 0, 0, 0.88) !important;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  z-index: 9999999 !important; /* Positioned below hamburger toggle but above other layers */
   margin-top: 0;
 }
 
-.navbar-mobile .mobile-nav-toggle {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-}
-
 .navbar-mobile ul {
-  display: block;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
   position: absolute;
-  top: 55px;
-  right: 15px;
-  bottom: 45px;
-  left: 15px;
-  padding: 10px 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0 !important;
   overflow-y: auto;
-  transition: 0.3s;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none !important;
+  background: transparent !important;
 }
 
 .navbar-mobile li {
-  padding: 12px 20px;
+  padding: 18px 0 !important;
+  width: 100%;
+  text-align: center;
 }
 
 .navbar-mobile li+li {
@@ -460,9 +463,60 @@ h6 {
 
 .navbar-mobile a,
 .navbar-mobile a:focus {
-  font-size: 16px;
-  position: relative;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: "Sora", sans-serif !important;
+  transition: all 0.3s ease;
+  display: inline-block !important;
 }
+
+/* Staggered Entrance Animations for Mobile Navigation Overlay & Items */
+@keyframes mobileNavEntrance {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    background: rgba(0, 0, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    background: rgba(0, 0, 0, 0.88);
+  }
+}
+
+@keyframes mobileNavItemEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar-mobile {
+  animation: mobileNavEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.navbar-mobile ul li {
+  opacity: 0; /* Initial state before animation triggers */
+  animation: mobileNavItemEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered delay for each menu item to create a cool cascade effect */
+.navbar-mobile ul li:nth-child(1) { animation-delay: 0.1s; }
+.navbar-mobile ul li:nth-child(2) { animation-delay: 0.15s; }
+.navbar-mobile ul li:nth-child(3) { animation-delay: 0.2s; }
+.navbar-mobile ul li:nth-child(4) { animation-delay: 0.25s; }
+.navbar-mobile ul li:nth-child(5) { animation-delay: 0.30s; }
+.navbar-mobile ul li:nth-child(6) { animation-delay: 0.35s; }
+.navbar-mobile ul li:nth-child(7) { animation-delay: 0.40s; }
 
 /*--------------------------------------------------------------
 # Sections General
@@ -1790,100 +1844,273 @@ pre.KonsolePara {
 
 
 /* ------------------------------------------ */
-/* Tabs */
-/* ------------------------------------------ */
-#tabs-filters {
-  padding: 0;
-  margin: 0 auto 15px auto;
-  list-style: none;
-  text-align: center;
-  border-radius: 50px;
-  padding: 2px 15px;
+/* About Grid & Toolkit Container */
+.toolkit-container,
+.background-container {
+  background: rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  padding: 30px;
+  height: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-#tabs-filters li {
-  cursor: pointer;
-  display: inline-block;
-  padding: 8px 16px 10px 16px;
+.toolkit-container:hover,
+.background-container:hover {
+  border-color: rgba(24, 210, 110, 0.2);
+  box-shadow: 0 20px 45px rgba(24, 210, 110, 0.06);
+  transform: translateY(-2px);
+}
+
+.toolkit-title,
+.background-title {
+  font-size: 19px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: 1.2px;
+  margin-bottom: 25px;
+  font-family: "Sora", sans-serif;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding-bottom: 12px;
+}
+
+/* Quick Background Box (Green Outline Box) */
+.quick-background-box {
+  border: 1.5px solid rgba(24, 210, 110, 0.45);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  background: rgba(24, 210, 110, 0.015);
+  box-shadow: 0 0 15px rgba(24, 210, 110, 0.04), inset 0 0 15px rgba(24, 210, 110, 0.015);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.quick-background-box:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 25px rgba(24, 210, 110, 0.18), inset 0 0 20px rgba(24, 210, 110, 0.06);
+  transform: scale(1.015);
+}
+
+.quick-bg-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  color: var(--text-secondary);
+  font-size: 14.5px;
+}
+
+.quick-bg-item:last-child {
+  margin-bottom: 0;
+}
+
+.quick-bg-item i {
+  color: var(--primary-color);
+  font-size: 19px;
+  filter: drop-shadow(0 0 5px rgba(24, 210, 110, 0.4));
+}
+
+/* Credentials List / Stack */
+.credentials-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.credential-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.credential-item:hover {
+  background: rgba(24, 210, 110, 0.025);
+  border-color: rgba(24, 210, 110, 0.18);
+  transform: translateX(6px);
+}
+
+.credential-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(24, 210, 110, 0.25);
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px rgba(24, 210, 110, 0.08);
+}
+
+.credential-item:hover .credential-icon {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 18px rgba(24, 210, 110, 0.35);
+  transform: rotate(6deg) scale(1.08);
+}
+
+.credential-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.credential-icon i {
+  color: var(--primary-color);
+  font-size: 20px;
+  filter: drop-shadow(0 0 5px rgba(24, 210, 110, 0.25));
+}
+
+.credential-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.credential-info h4 {
   font-size: 14px;
   font-weight: 600;
-  line-height: 1;
-  text-transform: uppercase;
   color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-  margin: 0 3px 5px 3px;
-  transition: all 0.3s ease-in-out;
-  border-radius: 4px;
-  border-bottom: 3px solid #0eb95ec5;
+  margin: 0 0 4px 0;
+  line-height: 1.35;
 }
 
-#tabs-filters li:hover,
-#tabs-filters li.filter-active {
-  background: #18d26e;
+.credential-info p {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin: 0;
+  font-style: italic;
 }
 
-#tabs-filters li:last-child {
-  margin-right: 0;
+/* Experience Divider & Timeline */
+.experience-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  margin: 45px 0;
 }
 
-
-
-
-.tab {
+.experience-timeline-vertical {
   position: relative;
-  -webkit-font-smoothing: antialiased;
+  padding: 20px 0;
 }
 
-.tabs {
-  position: sticky;
+.vertical-timeline-track {
+  position: absolute;
+  left: 20px;
   top: 0;
-  z-index: 100;
-  background: rgba(4, 4, 4, 0.95);
-  backdrop-filter: blur(15px);
-  padding: 15px 0;
-  margin: 0 -30px 25px -30px;
-  border-bottom: 1px solid rgba(24, 210, 110, 0.2);
-  text-align: center;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(24, 210, 110, 0.6), rgba(24, 210, 110, 0.1));
+  box-shadow: 0 0 10px rgba(24, 210, 110, 0.2);
 }
 
-.tabs li {
-  cursor: pointer;
-  text-transform: uppercase;
-  display: inline-block;
-  line-height: 30px;
-  overflow: hidden;
+.vertical-timeline-item {
   position: relative;
-  margin: 0 auto 10px auto;
-
-  padding: 2px 10px;
-  background: rgba(255, 255, 255, 0.1);
+  padding-left: 60px;
+  margin-bottom: 40px;
+  transition: all 0.5s ease;
 }
 
-.tabs a {
-  color: #fff;
+.vertical-timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.vertical-timeline-marker {
+  position: absolute;
+  left: 11px;
+  top: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #040404;
+  border: 2px solid rgba(24, 210, 110, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.marker-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-color);
+  transition: all 0.35s ease;
+}
+
+.vertical-timeline-item:hover .vertical-timeline-marker {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 18px var(--primary-color);
+  transform: scale(1.25);
+}
+
+.vertical-timeline-content {
+  background: rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  padding: 25px 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vertical-timeline-item:hover .vertical-timeline-content {
+  background: rgba(24, 210, 110, 0.012);
+  border-color: rgba(24, 210, 110, 0.18);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(24, 210, 110, 0.04);
+}
+
+.timeline-designation {
+  font-family: "Sora", sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.timeline-period {
+  font-size: 13px;
+  background: rgba(24, 210, 110, 0.08);
+  color: var(--primary-color);
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(24, 210, 110, 0.18);
   font-weight: 500;
-  display: block;
-  letter-spacing: 0;
-  outline: none;
-  padding: 0 20px;
-  text-decoration: none;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-
 }
 
-.tabs_item {
-  display: none;
+.timeline-company {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  font-style: italic;
 }
 
-
-.tabs_item:first-child {
-  display: block;
+.timeline-body {
+  color: var(--text-secondary);
+  font-size: 14.5px;
 }
 
-.current {
-  background: #0eb95ec5 !important;
+.timeline-body ul {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.timeline-body li {
+  margin-bottom: 8px;
+}
+
+.timeline-body li:last-child {
+  margin-bottom: 0;
 }
 
 .download {
@@ -3017,49 +3244,7 @@ pre.KonsolePara {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-@media (max-width: 768px) {
-  .tab ul.tabs {
-    display: flex !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .tab ul.tabs li {
-    display: inline-block !important;
-    float: none !important;
-    margin-right: 15px !important;
-  }
-
-  .exp-spine {
-    display: none !important;
-  }
-
-  .exp-slides-wrap {
-    padding-left: 0 !important;
-  }
-}
-
-.tabs_item {
-  display: none;
-}
-
-.tabs_item.active-tab {
-  display: block !important;
-}
-
-@media (max-width: 768px) {
-  .tab ul.tabs li {
-    flex-shrink: 0 !important;
-    width: auto !important;
-    padding: 0 10px !important;
-  }
-
-  .tab ul.tabs a {
-    white-space: nowrap !important;
-    display: block !important;
-  }
-}
+/* Outdated tab overrides removed in favor of single-page vertical chronological timeline and grid layout */
 
 .cert-card {
   display: flex;
@@ -3158,4 +3343,271 @@ pre.KonsolePara {
   .skill-category-title {
     font-size: 1.1rem !important;
   }
+}
+
+/* ==============================================================
+# RESPONSIVE TYPOGRAPHY & LAYOUT UPGRADES FOR SMALL SCREENS
+============================================================== */
+
+/* 1. Fluid & Responsive Font Size Overrides all over the website */
+@media (max-width: 991px) {
+  body {
+    font-size: 14.5px;
+  }
+  
+  #header h1 {
+    font-size: 38px !important;
+  }
+  
+  #header h2 {
+    font-size: 20px !important;
+  }
+
+  .section-title p {
+    font-size: 28px !important;
+  }
+  
+  .about-me .content h3 {
+    font-size: 22px !important;
+  }
+  
+  .toolkit-title,
+  .background-title {
+    font-size: 17px !important;
+  }
+  
+  .timeline-designation {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    font-size: 13.5px;
+  }
+  
+  #header h1 {
+    font-size: 28px !important;
+  }
+  
+  #header h2 {
+    font-size: 16px !important;
+    margin-top: 12px;
+  }
+
+  .section-title h2 {
+    font-size: 12px !important;
+  }
+
+  .section-title p {
+    font-size: 22px !important;
+    margin-top: -10px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .toolkit-title,
+  .background-title {
+    font-size: 15px !important;
+    margin-bottom: 18px !important;
+  }
+  
+  .timeline-designation {
+    font-size: 16px !important;
+  }
+  
+  .timeline-company {
+    font-size: 13px !important;
+  }
+
+  .contact .info-box h3 {
+    font-size: 16px !important;
+  }
+  
+  /* Project Detail Modal Typography */
+  .project-detail-modal .modal-header h3 {
+    font-size: 18px !important;
+  }
+}
+
+/* 2. Responsive Mobile Navbar fixes (Hamburger Navigation ALWAYS on top!) */
+.mobile-nav-toggle {
+  position: fixed !important;
+  right: 15px !important;
+  top: 15px !important;
+  z-index: 99999999 !important; /* Absolute top layer above all sections, panels, and modals */
+  color: #fff !important;
+  font-size: 26px !important; /* Meticulously scaled for the circle container */
+  cursor: pointer;
+  line-height: 0;
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: none; /* Hidden on desktop */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.mobile-nav-toggle:hover {
+  background: rgba(24, 210, 110, 0.25) !important;
+  border-color: rgba(24, 210, 110, 0.5);
+  transform: scale(1.05);
+}
+
+@media (max-width: 991px) {
+  .mobile-nav-toggle {
+    display: flex !important; /* Render as centered flex button on mobile/tablets */
+  }
+}
+
+/* Console visibility overrides (visible on tablet/desktop, completely hidden on mobile screens) */
+@media (max-width: 767px) {
+  /* Hide the Console Link in navbar on mobile devices */
+  .nav-console-item {
+    display: none !important;
+  }
+  
+  /* Hide the Console terminal section completely on mobile devices to prevent scroll navigation */
+  #Console {
+    display: none !important;
+  }
+}
+
+/* 3. Testimonial Card Scaling and Spacing for Small Screens */
+@media (max-width: 576px) {
+  .testimonial-card-expanded {
+    padding: 25px 20px !important;
+    border-radius: 16px !important;
+    width: 92% !important;
+  }
+  
+  .close-testimonial {
+    top: 12px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  #expanded-content {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* 4. Experience, Skills, Background optimizations for small screens */
+@media (max-width: 768px) {
+  .toolkit-container,
+  .background-container {
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .quick-background-box {
+    padding: 15px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .credential-item {
+    padding: 12px !important;
+    gap: 12px !important;
+  }
+  
+  .credential-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  .credential-icon i {
+    font-size: 16px !important;
+  }
+  
+  .credential-info h4 {
+    font-size: 13px !important;
+  }
+  
+  .credential-info p {
+    font-size: 11.5px !important;
+  }
+  
+  /* Timeline Track left padding compression */
+  .vertical-timeline-item {
+    padding-left: 35px !important;
+    margin-bottom: 30px !important;
+  }
+  
+  .vertical-timeline-track {
+    left: 10px !important;
+  }
+  
+  .vertical-timeline-marker {
+    left: 1px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+  
+  .marker-dot {
+    width: 6px !important;
+    height: 6px !important;
+  }
+  
+  .vertical-timeline-content {
+    padding: 18px 20px !important;
+  }
+  
+  .timeline-period {
+    font-size: 11.5px !important;
+    padding: 2px 10px !important;
+  }
+}
+
+/* 5. Space-saving 2x2 grid for Testimonial progress boxes on mobile */
+@media (max-width: 576px) {
+  .counts .count-box {
+    padding: 10px 5px !important;
+  }
+  .counts .count-box span {
+    font-size: 18px !important;
+  }
+  .counts .count-box p {
+    font-size: 9px !important;
+  }
+  .counts .count-box i {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 16px !important;
+    margin-bottom: 6px !important;
+  }
+}
+
+/* 6. Immersive Fullscreen Mobile Menu active transitions (hides canvas & sections) */
+body.mobile-nav-active section.section-show {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: scale(0.95) translateY(20px) !important;
+  pointer-events: none !important;
+}
+
+body.mobile-nav-active #bg-canvas {
+  opacity: 0 !important;
+  transition: opacity 0.6s ease !important;
+}
+
+body.mobile-nav-active #header {
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.mobile-nav-active #header h1,
+body.mobile-nav-active #header h2,
+body.mobile-nav-active #header .social-links {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.4s ease !important;
 }

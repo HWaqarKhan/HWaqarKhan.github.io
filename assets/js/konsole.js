@@ -130,6 +130,39 @@ class Konsole {
         if (kommand && kommand.name && kommand.description && kommand.func) this.kommands.push(kommand);
     }
 
+    exec(commandLine) {
+        if (!commandLine) return Promise.resolve();
+        const cmdText = commandLine.trim().replace(/  +/g, " ");
+        let command = "";
+        let arg = "";
+
+        if (cmdText.indexOf(" ") == -1) {
+            command = cmdText;
+        }
+        else {
+            command = cmdText.substring(0, cmdText.indexOf(" "));
+            arg = cmdText.substring(cmdText.indexOf(" ") + 1);
+        }
+
+        // Add the terminal prompt and user input representation
+        this.elem.append(this.konsoleSettings.konsoleLineMarkup());
+        const lastLine = $(".KonsoleLine:last span.KonsoleLineText");
+        lastLine.text(cmdText);
+
+        let kommand = this.kommands.find(k => k.name.toLowerCase() === command.toLowerCase());
+
+        if (kommand) {
+            return kommand.func(arg).then(() => {
+                this.awaitKommand();
+            });
+        }
+        else {
+            return this.print(`bash: ${command}: command not found`).then(() => {
+                this.awaitKommand();
+            });
+        }
+    }
+
     awaitKommand() {
         this.elem.append(this.konsoleSettings.konsoleLineMarkup());
         $(document).off("keydown.konsole").on("keydown.konsole", (e) => {

@@ -56,12 +56,12 @@
         <ul>
           <li><a class="nav-link active" href="#header" aria-label="Navigate to Home">Home</a></li>
           <li><a class="nav-link" href="#about" aria-label="Read more About Me">About</a></li>
+          <li><a class="nav-link scrollto-exp" href="#about" aria-label="View my Professional Experience">Experience</a></li>
           <li><a class="nav-link" href="#portfolio" aria-label="View my Portfolio Projects">Portfolio</a></li>
           <li><a class="nav-link" href="#testimonial" aria-label="Read Client Testimonials">Testimonials</a></li>
-          <li><a class="nav-link" href="#Console" aria-label="Open Interactive Console">Console</a></li>
+          <li class="nav-console-item"><a class="nav-link" href="#Console" aria-label="Open Interactive Console">Console</a></li>
           <li><a class="nav-link" href="#contact" aria-label="Go to Contact Section">Contact</a></li>
         </ul>
-        <i class="bi bi-list mobile-nav-toggle" aria-label="Toggle Navigation Menu"></i>
       </nav>
       <!-- .navbar -->
 
@@ -71,148 +71,78 @@
   </header>
   <!-- End Header -->
 
+  <!-- Hamburger Navigation Button (Direct child of body to prevent stacking context clipping) -->
+  <i class="bi bi-list mobile-nav-toggle" aria-label="Toggle Navigation Menu"></i>
+
   <!-- ======= About Section ======= -->
   <section id="about" class="about">
+    <div class="container">
 
-    <div class="tab">
-
-      <ul class="tabs" id="tabs-filters">
-        <li><a href="#">About</a></li>
-        <li><a href="#">Skills</a></li>
-        <!-- <li><a href="#">Education</a></li> -->
-        <li><a href="#">Experience</a></li>
-        <li><a href="#">Certifications</a></li>
-      </ul>
-      <!-- / tabs -->
-
-      <div class="container tab_content">
-
-        <!-- About Tab -->
-        <div class="tabs_item">
-          <div id="aboutMe2" class="tab-item">
-            <div class="about-me ">
-
-              <div class="section-title delay-100">
-                <h2>About Me</h2>
-                <p>Learn more about me</p>
-              </div>
-
-              <div class="row delay-200">
-                <div class="col-lg-12 pt-4 pt-lg-0 content" data-aos="fade-left">
-                  <h3 id="designation"></h3>
-                  <p class="fst-italic" id="aboutMe"></p>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <ul>
-                        <li><i class="bi bi-chevron-right"></i>
-                          <strong>Email: </strong>
-                          <a class="emailLink"><span class="myEmail"></span></a>
-                        </li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Address:</strong>
-                          <span id="address"></span>
-                        </li>
-                        <!-- <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong>
-                          <span>Available</span>
-                        </li> -->
-                      </ul>
-                    </div>
-                    <div class="col-lg-6">
-                      <ul>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Phone No:</strong>
-                          <span id="phoneNo"></span>
-                        </li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong>
-                          <span id="degree"></span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <p>
-                  </p>
-                </div>
-              </div>
-
-              <div id="education-block" class="mt-3 delay-300">
-                <div class="container-fluid cc-education">
-                  <div class="section-title">
-                    <h2>Education</h2>
-                  </div>
-                  <div id="education_history" class="row">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <!-- Skill Tab -->
-        <div class="tabs_item">
-          <div id="skills" class="skills tab-item">
-            <div class="section-title">
-              <h2>Skills</h2>
-            </div>
-            <div class="row skills-content" id="skills_data"></div>
-          </div>
-        </div>
-        <!-- Education Tab -->
-        <!-- <div class="tabs_item">
-          <div id="education" class="section ">
-            <div class=" container-fluid cc-education">
-              <div class="section-title">
-                <h2>Education</h2>
-              </div>
-              <div id="education_history" class="row">
-              </div>
-            </div>
-          </div>
-        </div> -->
-
-        <!-- Experience Tab -->
-        <div class="tabs_item">
-          <div id="experience" class="section ">
-            <div class=" container-fluid cc-education">
-              <div class="section-title">
-                <h2>Experience</h2>
-              </div>
-              <div class="experiences">
-
-              </div>
-            </div>
-          </div>
-
-
-
-          <!-- <div class="experience-item">
-                  <h4>Developer</h4>
-                  <h5>2019 Present</h5>
-                  <p><em>Company</em></p>
-                  <p>
-                  <ul>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, soluta rem inventore
-                      perspiciatis voluptate vero fuga nesciunt, minus quae quia est modi! Quas vitae, impedit maxime
-                      illo esse earum et!</li>
-                  </ul>
-                  </p>
-                </div> -->
-
-        </div>
-        <!-- Certifications Tab -->
-        <div class="tabs_item">
-          <div id="certification" class="interests section ">
-            <div class=" container-fluid cc-education">
-              <div class="section-title">
-                <h2>Certifications</h2>
-              </div>
-              <div id="certifications" class="row">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- / tab_content -->
+      <!-- Section Title -->
+      <div class="section-title delay-100">
+        <h2>About &amp; Technical Toolkit</h2>
+        <p>Technical Toolkit &amp; Credentials</p>
       </div>
 
+      <div class="row">
+        <!-- Left Column: Technical Toolkit -->
+        <div class="col-lg-7 col-md-12 delay-200">
+          <div class="toolkit-container">
+            <h3 class="toolkit-title">Technical Toolkit</h3>
+            <div id="skills_data" class="row">
+              <!-- Dynamically populated categories of skills -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Certifications & Background -->
+        <div class="col-lg-5 col-md-12 mt-4 mt-lg-0 delay-300">
+          <div class="background-container">
+            <h3 class="background-title">Certifications &amp; Background</h3>
+            
+            <!-- Quick Background Box (Green Outline Box) -->
+            <div class="quick-background-box">
+              <div class="quick-bg-item">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span id="bg-location">Lahore, Punjab, Pakistan</span>
+              </div>
+              <div class="quick-bg-item">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span id="bg-degree">BS Computer Science</span>
+              </div>
+              <div class="quick-bg-item">
+                <i class="bi bi-briefcase-fill"></i>
+                <span>Available for Remote Contracts</span>
+              </div>
+            </div>
+
+            <!-- Credentials Stack (Dynamic Certifications and Education) -->
+            <div id="credentials_stack" class="credentials-stack">
+              <!-- Dynamically populated vertical credential items -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experience Section (Auto shown when user scrolls) -->
+      <div class="experience-divider mt-5 pt-4"></div>
+      
+      <div class="section-title mt-5 delay-100" id="experience-title">
+        <h2>Experience</h2>
+        <p>Professional Experience</p>
+      </div>
+
+      <div class="row delay-200">
+        <div class="col-12">
+          <div id="experience_timeline_vertical" class="experience-timeline-vertical">
+            <!-- Dynamically populated vertical chronological timeline -->
+          </div>
+        </div>
+      </div>
+
+    </div>
   </section>
+  <!-- End About Section -->
   <!-- End About Section -->
 
   <!-- ======= Portfolio Section ======= -->
