@@ -60,7 +60,8 @@ var links = ".social-links";
     // Render Components
     $(skills).html(RenderList(p.skill_categories, consts.SKILLS));
     $('#credentials_stack').html(buildCredentialsList(p));
-    $('#experience_timeline_vertical').html(buildVerticalExperienceTimeline(p.experiences));
+    $(exps).html(buildExperienceTimeline(p.experiences));
+    initExperienceTimeline();
     $(progress).html(RenderList(p.progress, consts.PROGRESS));
     $(testimonial).html(RenderList(p.testimonial, consts.TESTIMONIAL));
     $(portfolio).html(RenderList(p.projects, consts.PORTFOLIO));
@@ -375,27 +376,131 @@ function buildCredentialsList(p) {
 }
 
 // Vertical Chronological Experience Timeline
-function buildVerticalExperienceTimeline(exps) {
+// Experience Timeline Slide Logic (Single slide on scroll)
+function buildExperienceTimeline(exps) {
   if (!exps || exps.length === 0) return '';
-  let html = '<div class="vertical-timeline-track"></div>';
+  let nodes = '', slides = '';
   exps.forEach((e, i) => {
-    html += `
-      <div class="vertical-timeline-item">
-        <div class="vertical-timeline-marker">
-          <div class="marker-dot"></div>
+    // Dynamic top position formula for timeline bullet track
+    const pct = exps.length > 1 ? (i / (exps.length - 1)) * 100 : 0;
+    nodes += `<div class="exp-timeline-node ${i === 0 ? 'active' : ''}" data-index="${i}" style="top: calc(8px + (100% - 16px) * ${pct / 100});"></div>`;
+    
+    // Slide structure matching original styles perfectly
+    slides += `
+      <div class="exp-slide ${i === 0 ? 'active' : ''}" data-index="${i}">
+        <div class="exp-slide-header">
+          <span class="exp-period">${e.from} — ${e.isCurrent ? 'Present' : e.to}</span>
+          ${e.isCurrent ? '<span class="exp-badge-current">Current</span>' : ''}
         </div>
-        <div class="vertical-timeline-content glass-card">
-          <div class="timeline-header d-flex flex-wrap justify-content-between align-items-center mb-2">
-            <h4 class="timeline-designation m-0">${e.designation}</h4>
-            <span class="timeline-period">${e.from} — ${e.isCurrent ? "Present" : e.to}</span>
-          </div>
-          <h5 class="timeline-company mb-3">${e.company}</h5>
-          <div class="timeline-body">${e.description}</div>
-        </div>
+        <h4 class="exp-designation">${e.designation}</h4>
+        <p class="exp-company"><i class="bi bi-building"></i> ${e.company}</p>
+        <div class="exp-body">${e.description}</div>
       </div>
     `;
   });
-  return html;
+  return `
+    <div class="exp-timeline" data-total="${exps.length}" data-current="0">
+      <div class="exp-spine">
+        <div class="exp-spine-track"></div>
+        <div class="exp-spine-fill"></div>
+        ${nodes}
+      </div>
+      <div class="exp-slides-wrap">
+        ${slides}
+      </div>
+      <div class="exp-nav">
+        <button class="exp-nav-btn exp-prev" disabled><i class="bi bi-chevron-up"></i></button>
+        <span class="exp-counter"><span class="exp-current-num">1</span> / ${exps.length}</span>
+        <button class="exp-nav-btn exp-next"><i class="bi bi-chevron-down"></i></button>
+      </div>
+    </div>
+  `;
+}
+
+function initExperienceTimeline() {
+  const timeline = $('.exp-timeline'); if (!timeline.length) return;
+  const total = parseInt(timeline.data('total')), slides = timeline.find('.exp-slide'), nodes = timeline.find('.exp-timeline-node'), fill = timeline.find('.exp-spine-fill');
+  let current = 0;
+  
+  function goTo(idx) {
+    if (idx < 0 || idx >= total || idx === current) return;
+    const dir = idx > current ? 'down' : 'up';
+    slides.eq(current).removeClass('active').addClass(dir === 'down' ? 'exit-up' : 'exit-down');
+    nodes.eq(current).removeClass('active'); current = idx;
+    slides.eq(current).addClass('active ' + (dir === 'down' ? 'enter-down' : 'enter-up'));
+    nodes.eq(current).addClass('active');
+    setTimeout(() => slides.removeClass('exit-up exit-down enter-up enter-down'), 400);
+    fill.css('height', (current / (total - 1) * 100) + '%');
+    timeline.find('.exp-current-num').text(current + 1);
+    
+    // Enable/disable navigation buttons based on limits
+    timeline.find('.exp-prev').prop('disabled', current === 0);
+    timeline.find('.exp-next').prop('disabled', current === total - 1);
+  }
+
+  timeline.find('.exp-prev').on('click', () => {
+    goTo(current - 1);
+  });
+
+  timeline.find('.exp-next').on('click', () => {
+    goTo(current + 1);
+  });
+
+  // Mouse Wheel Support inside the experience panel
+  let lastWheelTime = 0;
+  timeline.on('wheel', function(e) {
+    const now = Date.now();
+    if (now - lastWheelTime < 400) return; // Smooth scroll debounce
+    
+    const deltaY = e.originalEvent.deltaY;
+    if (deltaY > 0) { // Scroll Down -> Next slide
+      if (current < total - 1) {
+        e.preventDefault();
+        goTo(current + 1);
+        lastWheelTime = now;
+      }
+    } else { // Scroll Up -> Prev slide
+      if (current > 0) {
+        e.preventDefault();
+        goTo(current - 1);
+        lastWheelTime = now;
+      }
+    }
+  });
+
+  // Touch Swipe Support
+  let touchStartY = 0;
+  timeline.on('touchstart', function(e) {
+    touchStartY = e.originalEvent.touches[0].clientY;
+  }, { passive: true });
+
+  timeline.on('touchmove', function(e) {
+    // Only prevent default if we are actively swiping between experiences
+    const touchY = e.originalEvent.touches[0].clientY;
+    const diff = touchStartY - touchY;
+    if (Math.abs(diff) > 10) {
+      if (diff > 0 && current < total - 1) {
+        if (e.cancelable) e.preventDefault();
+      } else if (diff < 0 && current > 0) {
+        if (e.cancelable) e.preventDefault();
+      }
+    }
+  });
+
+  timeline.on('touchend', function(e) {
+    const touchEndY = e.originalEvent.changedTouches[0].clientY;
+    const diff = touchStartY - touchEndY;
+    
+    if (Math.abs(diff) > 50) { // Swipe threshold
+      if (diff > 0) { // Swipe Up -> Next
+        if (current < total - 1) goTo(current + 1);
+      } else { // Swipe Down -> Prev
+        if (current > 0) goTo(current - 1);
+      }
+    }
+  });
+
+  nodes.on('click', function () { goTo($(this).data('index')); });
 }
 
 // Modal & Interaction Logic
