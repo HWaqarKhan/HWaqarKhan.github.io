@@ -70,6 +70,7 @@ function smoothScrollToTop(el) {
    * Scrool with ofset on links with a class name .scrollto
    */
   on('click', '#navbar .nav-link', function (e) {
+    this.blur();
     let section = select(this.hash)
     if (section) {
       e.preventDefault()
