@@ -112,6 +112,10 @@ function getCertificationTemplate(e) {
 }
 
 function getPortfolios(e) {
+  //  data-problem="${e.problem || 'Coming soon...'}"
+  //        data-solution="${e.solution || 'Coming soon...'}"
+  //        data-role="${e.role || 'Senior Developer'}"
+  //        data-impact="${e.impact || 'Successful deployment and positive user feedback.'}"
   const techBadges = String(e.tech || '').split(',').filter(t => t.trim()).map(t => `<span class="portfolio-tech-badge">${t.trim()}</span>`).join('');
   return `
     <div class="col-lg-4 col-md-6 portfolio-item filter-app" 
@@ -120,10 +124,7 @@ function getPortfolios(e) {
          data-tech="${e.tech}" 
          data-url="${e.url}" 
          data-description="${e.description || ''}"
-         data-problem="${e.problem || 'Coming soon...'}"
-         data-solution="${e.solution || 'Coming soon...'}"
-         data-role="${e.role || 'Senior Developer'}"
-         data-impact="${e.impact || 'Successful deployment and positive user feedback.'}">
+        >
       <div class="portfolio-wrap tilt-card">
         <img src="${e.img}" alt="${e.name}" class="img-fluid">
         <div class="portfolio-info">
@@ -384,7 +385,7 @@ function buildExperienceTimeline(exps) {
     // Dynamic top position formula for timeline bullet track
     const pct = exps.length > 1 ? (i / (exps.length - 1)) * 100 : 0;
     nodes += `<div class="exp-timeline-node ${i === 0 ? 'active' : ''}" data-index="${i}" style="top: calc(8px + (100% - 16px) * ${pct / 100});"></div>`;
-    
+
     // Slide structure matching original styles perfectly
     slides += `
       <div class="exp-slide ${i === 0 ? 'active' : ''}" data-index="${i}">
@@ -421,7 +422,7 @@ function initExperienceTimeline() {
   const timeline = $('.exp-timeline'); if (!timeline.length) return;
   const total = parseInt(timeline.data('total')), slides = timeline.find('.exp-slide'), nodes = timeline.find('.exp-timeline-node'), fill = timeline.find('.exp-spine-fill');
   let current = 0;
-  
+
   function goTo(idx) {
     if (idx < 0 || idx >= total || idx === current) return;
     const dir = idx > current ? 'down' : 'up';
@@ -432,7 +433,7 @@ function initExperienceTimeline() {
     setTimeout(() => slides.removeClass('exit-up exit-down enter-up enter-down'), 400);
     fill.css('height', (current / (total - 1) * 100) + '%');
     timeline.find('.exp-current-num').text(current + 1);
-    
+
     // Enable/disable navigation buttons based on limits
     timeline.find('.exp-prev').prop('disabled', current === 0);
     timeline.find('.exp-next').prop('disabled', current === total - 1);
@@ -448,10 +449,10 @@ function initExperienceTimeline() {
 
   // Mouse Wheel Support inside the experience panel
   let lastWheelTime = 0;
-  timeline.on('wheel', function(e) {
+  timeline.on('wheel', function (e) {
     const now = Date.now();
     if (now - lastWheelTime < 400) return; // Smooth scroll debounce
-    
+
     const deltaY = e.originalEvent.deltaY;
     if (deltaY > 0) { // Scroll Down -> Next slide
       if (current < total - 1) {
@@ -470,11 +471,11 @@ function initExperienceTimeline() {
 
   // Touch Swipe Support
   let touchStartY = 0;
-  timeline.on('touchstart', function(e) {
+  timeline.on('touchstart', function (e) {
     touchStartY = e.originalEvent.touches[0].clientY;
   }, { passive: true });
 
-  timeline.on('touchmove', function(e) {
+  timeline.on('touchmove', function (e) {
     // Only prevent default if we are actively swiping between experiences
     const touchY = e.originalEvent.touches[0].clientY;
     const diff = touchStartY - touchY;
@@ -487,10 +488,10 @@ function initExperienceTimeline() {
     }
   });
 
-  timeline.on('touchend', function(e) {
+  timeline.on('touchend', function (e) {
     const touchEndY = e.originalEvent.changedTouches[0].clientY;
     const diff = touchStartY - touchEndY;
-    
+
     if (Math.abs(diff) > 50) { // Swipe threshold
       if (diff > 0) { // Swipe Up -> Next
         if (current < total - 1) goTo(current + 1);

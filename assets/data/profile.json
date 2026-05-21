@@ -204,7 +204,7 @@
         "projects": [
             {
                 "name": "COCOA",
-                "img": "https://media.discordapp.net/attachments/982520374719819777/982521614472183868/unknown.png?ex=6a00c54f&is=69ff73cf&hm=d241aaf4bff083442bf4798b8fa6b2f72400f454100596f12d45bc376a37abca&=&format=webp&quality=lossless&width=1250&height=605",
+                "img": "assets/images/portfolio/cocoa-portfolio-angular.png",
                 "tech": "Angular, TypeScript",
                 "url": "",
                 "description": "COCOA is a high-performance web application built with Angular, designed for streamlined content management and interactive user experiences. It features a modern modular architecture, state-of-the-art UI components, and integrated real-time data synchronization."
@@ -215,14 +215,14 @@
                 "name": "Usman Khan",
                 "designation": "Full Stack Developer",
                 "link": "https://pk.linkedin.com/in/uk-gorsi",
-                "img": "https://usman-khan-01.github.io/assets/images/profile/profile-image.jpg",
-                "endorsement": "Waqar and I both worked on an Account Management System in which we used angular and Asp.Net Core as backend api. We used JWT (Jason Web Tokens) for authentication and followed the N-Layerd Architecture along with Unit of Work and Repository patterns."
+                "img": "assets/images/testimonials/usman-khan-testimonial-image.png",
+                "endorsement": "Waqar completed the project in timely manner and given updates about the project at every step, which kept me up-to date. I had a great experience with him and would be working on the future projects.."
             },
             {
                 "name": "Ali Iqbal",
                 "designation": "Software Engineer",
                 "link": "https://www.linkedin.com/in/ali-iqbal-30155318a/",
-                "img": "https://i.pravatar.cc/150?u=sarah",
+                "img": "assets/images/testimonials/ali-iqbal-testimonial-image.jpg",
                 "endorsement": "Very good and excellent experience."
             }
         ],
