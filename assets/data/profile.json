@@ -17,23 +17,13 @@
         "image_url": "https://media.discordapp.net/attachments/980713019342483486/981604428115226634/Bg-Cover.jpg?ex=6a01639c&is=6a00121c&hm=4bdb2eff041885f31b3efd83623b61434b30b00200a46d7dd6c3fc916f8aa275&=&format=webp&width=1280&height=800",
         "links": [
             {
-                "name": "twitter",
-                "url": "https://www.linkedin.com/in/hafiz-waqar-khan/",
-                "icon": "bi bi-twitter"
-            },
-            {
                 "name": "gitHub",
                 "url": "https://github.com/HWaqarKhan",
                 "icon": "bi bi-github"
             },
             {
-                "name": "skype",
-                "url": "https://join.skype.com/invite/pd9swoskA8N0",
-                "icon": "bi bi-skype"
-            },
-            {
                 "name": "linkedin",
-                "url": "https://www.linkedin.com/in/hafiz-waqar-khan/",
+                "url": "https://www.linkedin.com/in/hafiz-muhammad-waqar/",
                 "icon": "bi bi-linkedin"
             },
             {
@@ -153,46 +143,67 @@
         ],
         "certifications": [
             {
-                "name": "WORDPRESS",
-                "img": "https://media.discordapp.net/attachments/980713019342483486/982308199938023454/unknown.png?ex=6a00a74d&is=69ff55cd&hm=ae8b69eeb6b71fe90060e43eea52ea181be6f0e802ed63b64be6744720fd5325&=&format=webp&quality=lossless&width=640&height=640",
-                "source": "DigiSkills",
-                "url": "https://media.discordapp.net/attachments/982297780733231124/982309084407668846/unknown.png?ex=6a00a820&is=69ff56a0&hm=b66366c83d6e7846c4f3d94f49f50a75d4045c57f812bc7aec824e90441f56bf&=&format=webp&quality=lossless&width=971&height=680"
+                "name": "Become a Software Developer",
+                "title": "Become a Software Developer",
+                "source": "LinkedIn",
+                "subtitle": "LinkedIn Learning",
+                "icon": "bi-gear-fill",
+                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
+                "url": "https://cdn.discordapp.com/attachments/982297780733231124/982298094471364648/unknown.png"
             },
             {
                 "name": "HTML Essential Training",
-                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
+                "title": "HTML Essential Training",
                 "source": "LinkedIn",
+                "subtitle": "LinkedIn Learning",
+                "icon": "bi-filetype-html",
+                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
                 "url": "https://www.linkedin.com/learning/certificates/365547b414941b1dd311450f55403c1615c53ef58a492e3e08acc4c922ed344d?trk=share_certificate"
             },
             {
                 "name": "CSS Essential Training",
-                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
+                "title": "CSS Essential Training",
                 "source": "LinkedIn",
+                "subtitle": "LinkedIn Learning",
+                "icon": "bi-filetype-css",
+                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
                 "url": "https://www.linkedin.com/learning/certificates/c1331594249e2526980ebf5f5ea4bdb39efa2f2896add8967264ae589b3cfc31?trk=share_certificate"
             },
             {
                 "name": "JavaScript Essential Training",
-                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
+                "title": "JavaScript Essential Training",
                 "source": "LinkedIn",
+                "subtitle": "LinkedIn Learning",
+                "icon": "bi-filetype-js",
+                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
                 "url": "https://www.linkedin.com/learning/certificates/26fdee4176180c2855197c63b3b93a5f35eb4a09c94037cc49d74a63de0c9043?trk=share_certificate"
             },
             {
                 "name": " Programming Fundamentals",
-                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
+                "title": "Programming Fundamentals",
                 "source": "LinkedIn",
+                "subtitle": "LinkedIn Learning",
+                "icon": "bi-code-slash",
+                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
                 "url": "https://www.linkedin.com/learning/certificates/30f85824d4c81f64428910c8e3066d037b6426e7106240ccfc65b41ccc9e1155?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_recent_activity_details_shares%3BKD%2BWGxhFSi6sN0oipymiwg%3D%3D"
             },
             {
                 "name": " Succeeding in Web Development: Full Stack and Front End",
-                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
+                "title": "Succeeding in Web Development: Full Stack & Front End",
                 "source": "LinkedIn",
+                "subtitle": "LinkedIn Learning",
+                "icon": "bi-laptop",
+                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
                 "url": "https://www.linkedin.com/learning/certificates/22388e144acd4e577b3c002b401db4166fadac1b1a028612a205c451ab5e7454"
             },
             {
-                "name": "Become a Software Developer",
-                "img": "https://cdn.discordapp.com/attachments/980713019342483486/982304940900900965/unknown.png",
-                "source": "LinkedIn",
-                "url": "https://cdn.discordapp.com/attachments/982297780733231124/982298094471364648/unknown.png"
+                "name": "WORDPRESS",
+                "title": "WordPress Professional Certification",
+                "source": "DigiSkills",
+                "subtitle": "DigiSkills",
+                "icon": "bi-wordpress",
+                "img": "https://media.discordapp.net/attachments/980713019342483486/982308199938023454/unknown.png?ex=6a00a74d&is=69ff55cd&hm=ae8b69eeb6b71fe90060e43eea52ea181be6f0e802ed63b64be6744720fd5325&=&format=webp&quality=lossless&width=640&height=640",
+                "url": "https://media.discordapp.net/attachments/982297780733231124/982309084407668846/unknown.png?ex=6a00a820&is=69ff56a0&hm=b66366c83d6e7846c4f3d94f49f50a75d4045c57f812bc7aec824e90441f56bf&=&format=webp&quality=lossless&width=971&height=680"
             }
         ],
         "interests": [
@@ -203,10 +214,23 @@
         ],
         "projects": [
             {
+                "name": "Sticky Viewer",
+                "img": "assets/images/portfolio/Sticky_Viewer.png",
+                "tech": "Python, WebView2",
+                "download": "assets/images/portfolio/StickyViewer-Setup.exe",
+                "description": "Sticky Viewer is a lightweight, always-on-top PDF reader with built-in sticky notes and intelligent screen sharing protection. Designed for students, researchers, and professionals, it lets users read PDFs, attach page-specific notes, and browse securely without breaking focus. Featuring system tray integration, privacy controls during meetings, and a clean modern interface, Sticky Viewer streamlines deep work and multitasking."
+            },
+            {
+                "name": "Learn Quran Live Academy",
+                "img": "assets/images/portfolio/LearnQuranLive.jpg",
+                "tech": "ASP.NET 6, Angular",
+                "live": "https://www.learnquranliveacademy.com/",
+                "description": "Learn Quran Live Academy is a web-based platform that provides online Quran learning services. It is designed to cater to the needs of students of all ages and levels, from beginners to advanced learners. The platform offers a comprehensive range of features, including: Online Quran Classes with Native Arab and Pakistani Tutors.  Quran Classes for Kids and Adults.  Flexible Class Schedules to Fit Your Lifestyle.  Weekly Progress Reports for Students and Parents.  Interactive Learning Tools and Resources."
+            },
+            {
                 "name": "COCOA",
                 "img": "assets/images/portfolio/cocoa-portfolio-angular.png",
                 "tech": "Angular, TypeScript",
-                "url": "",
                 "description": "COCOA is a high-performance web application built with Angular, designed for streamlined content management and interactive user experiences. It features a modern modular architecture, state-of-the-art UI components, and integrated real-time data synchronization."
             }
         ],
@@ -229,12 +253,12 @@
         "progress": [
             {
                 "name": "Happy Client",
-                "count": "20",
+                "count": "4",
                 "icon": "bi bi-emoji-smile"
             },
             {
                 "name": "Projects",
-                "count": "20",
+                "count": "11",
                 "icon": "bi bi-journal-richtext"
             },
             {
@@ -244,7 +268,7 @@
             },
             {
                 "name": "Awards",
-                "count": "26",
+                "count": "13",
                 "icon": "bi bi-award"
             }
         ]

@@ -249,7 +249,8 @@ h6 {
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  z-index: 9999 !important; /* Keep header and mobile hamburger ALWAYS above active sections */
+  z-index: 9999 !important;
+  /* Keep header and mobile hamburger ALWAYS above active sections */
 }
 
 #header.header-top .social-links,
@@ -430,7 +431,8 @@ h6 {
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  z-index: 9999999 !important; /* Positioned below hamburger toggle but above other layers */
+  z-index: 9999999 !important;
+  /* Positioned below hamburger toggle but above other layers */
   margin-top: 0;
 }
 
@@ -481,6 +483,7 @@ h6 {
     -webkit-backdrop-filter: blur(0px);
     background: rgba(0, 0, 0, 0);
   }
+
   100% {
     opacity: 1;
     backdrop-filter: blur(25px);
@@ -494,6 +497,7 @@ h6 {
     opacity: 0;
     transform: translateY(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -505,18 +509,39 @@ h6 {
 }
 
 .navbar-mobile ul li {
-  opacity: 0; /* Initial state before animation triggers */
+  opacity: 0;
+  /* Initial state before animation triggers */
   animation: mobileNavItemEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Staggered delay for each menu item to create a cool cascade effect */
-.navbar-mobile ul li:nth-child(1) { animation-delay: 0.1s; }
-.navbar-mobile ul li:nth-child(2) { animation-delay: 0.15s; }
-.navbar-mobile ul li:nth-child(3) { animation-delay: 0.2s; }
-.navbar-mobile ul li:nth-child(4) { animation-delay: 0.25s; }
-.navbar-mobile ul li:nth-child(5) { animation-delay: 0.30s; }
-.navbar-mobile ul li:nth-child(6) { animation-delay: 0.35s; }
-.navbar-mobile ul li:nth-child(7) { animation-delay: 0.40s; }
+.navbar-mobile ul li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.navbar-mobile ul li:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.navbar-mobile ul li:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.navbar-mobile ul li:nth-child(4) {
+  animation-delay: 0.25s;
+}
+
+.navbar-mobile ul li:nth-child(5) {
+  animation-delay: 0.30s;
+}
+
+.navbar-mobile ul li:nth-child(6) {
+  animation-delay: 0.35s;
+}
+
+.navbar-mobile ul li:nth-child(7) {
+  animation-delay: 0.40s;
+}
 
 /*--------------------------------------------------------------
 # Sections General
@@ -863,6 +888,16 @@ section .container {
   overflow: hidden;
   z-index: 1;
   background: rgba(0, 0, 0, 0.6);
+}
+
+.portfolio-wrap.tilt-card {
+  width: 400px;
+  height: 200px;
+}
+
+.portfolio-wrap.tilt-card img {
+  width: auto;
+  height: auto;
 }
 
 .portfolio .portfolio-wrap::before {
@@ -3354,11 +3389,11 @@ pre.KonsolePara {
   body {
     font-size: 14.5px;
   }
-  
+
   #header h1 {
     font-size: 38px !important;
   }
-  
+
   #header h2 {
     font-size: 20px !important;
   }
@@ -3366,16 +3401,16 @@ pre.KonsolePara {
   .section-title p {
     font-size: 28px !important;
   }
-  
+
   .about-me .content h3 {
     font-size: 22px !important;
   }
-  
+
   .toolkit-title,
   .background-title {
     font-size: 17px !important;
   }
-  
+
   .timeline-designation {
     font-size: 18px !important;
   }
@@ -3385,11 +3420,11 @@ pre.KonsolePara {
   body {
     font-size: 13.5px;
   }
-  
+
   #header h1 {
     font-size: 28px !important;
   }
-  
+
   #header h2 {
     font-size: 16px !important;
     margin-top: 12px;
@@ -3404,17 +3439,17 @@ pre.KonsolePara {
     margin-top: -10px !important;
     margin-bottom: 10px !important;
   }
-  
+
   .toolkit-title,
   .background-title {
     font-size: 15px !important;
     margin-bottom: 18px !important;
   }
-  
+
   .timeline-designation {
     font-size: 16px !important;
   }
-  
+
   .timeline-company {
     font-size: 13px !important;
   }
@@ -3422,7 +3457,7 @@ pre.KonsolePara {
   .contact .info-box h3 {
     font-size: 16px !important;
   }
-  
+
   /* Project Detail Modal Typography */
   .project-detail-modal .modal-header h3 {
     font-size: 18px !important;
@@ -3434,9 +3469,11 @@ pre.KonsolePara {
   position: fixed !important;
   right: 15px !important;
   top: 15px !important;
-  z-index: 99999999 !important; /* Absolute top layer above all sections, panels, and modals */
+  z-index: 99999999 !important;
+  /* Absolute top layer above all sections, panels, and modals */
   color: #fff !important;
-  font-size: 26px !important; /* Meticulously scaled for the circle container */
+  font-size: 26px !important;
+  /* Meticulously scaled for the circle container */
   cursor: pointer;
   line-height: 0;
   transition: all 0.3s ease;
@@ -3447,7 +3484,8 @@ pre.KonsolePara {
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  display: none; /* Hidden on desktop */
+  display: none;
+  /* Hidden on desktop */
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
@@ -3461,17 +3499,19 @@ pre.KonsolePara {
 
 @media (max-width: 991px) {
   .mobile-nav-toggle {
-    display: flex !important; /* Render as centered flex button on mobile/tablets */
+    display: flex !important;
+    /* Render as centered flex button on mobile/tablets */
   }
 }
 
 /* Console visibility overrides (visible on tablet/desktop, completely hidden on mobile screens) */
 @media (max-width: 767px) {
+
   /* Hide the Console Link in navbar on mobile devices */
   .nav-console-item {
     display: none !important;
   }
-  
+
   /* Hide the Console terminal section completely on mobile devices to prevent scroll navigation */
   #Console {
     display: none !important;
@@ -3485,14 +3525,14 @@ pre.KonsolePara {
     border-radius: 16px !important;
     width: 92% !important;
   }
-  
+
   .close-testimonial {
     top: 12px !important;
     right: 12px !important;
     width: 32px !important;
     height: 32px !important;
   }
-  
+
   #expanded-content {
     font-size: 14px !important;
     line-height: 1.5 !important;
@@ -3501,64 +3541,65 @@ pre.KonsolePara {
 
 /* 4. Experience, Skills, Background optimizations for small screens */
 @media (max-width: 768px) {
+
   .toolkit-container,
   .background-container {
     padding: 20px !important;
     margin-bottom: 20px !important;
   }
-  
+
   .quick-background-box {
     padding: 15px !important;
     margin-bottom: 20px !important;
   }
-  
+
   .credential-item {
     padding: 12px !important;
     gap: 12px !important;
   }
-  
+
   .credential-icon {
     width: 40px !important;
     height: 40px !important;
   }
-  
+
   .credential-icon i {
     font-size: 16px !important;
   }
-  
+
   .credential-info h4 {
     font-size: 13px !important;
   }
-  
+
   .credential-info p {
     font-size: 11.5px !important;
   }
-  
+
   /* Timeline Track left padding compression */
   .vertical-timeline-item {
     padding-left: 35px !important;
     margin-bottom: 30px !important;
   }
-  
+
   .vertical-timeline-track {
     left: 10px !important;
   }
-  
+
   .vertical-timeline-marker {
     left: 1px !important;
     width: 18px !important;
     height: 18px !important;
   }
-  
+
   .marker-dot {
     width: 6px !important;
     height: 6px !important;
   }
-  
+
   .vertical-timeline-content {
     padding: 18px 20px !important;
   }
-  
+
   .timeline-period {
     font-size: 11.5px !important;
     padding: 2px 10px !important;
@@ -3570,12 +3611,15 @@ pre.KonsolePara {
   .counts .count-box {
     padding: 10px 5px !important;
   }
+
   .counts .count-box span {
     font-size: 18px !important;
   }
+
   .counts .count-box p {
     font-size: 9px !important;
   }
+
   .counts .count-box i {
     width: 30px !important;
     height: 30px !important;

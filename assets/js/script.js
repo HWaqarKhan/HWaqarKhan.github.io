@@ -111,32 +111,93 @@ function getCertificationTemplate(e) {
     </div>`;
 }
 
+// function getPortfolios(e) {
+//   //  data-problem="${e.problem || 'Coming soon...'}"
+//   //        data-solution="${e.solution || 'Coming soon...'}"
+//   //        data-role="${e.role || 'Senior Developer'}"
+//   //        data-impact="${e.impact || 'Successful deployment and positive user feedback.'}"
+//   const techBadges = String(e.tech || '').split(',').filter(t => t.trim()).map(t => `<span class="portfolio-tech-badge">${t.trim()}</span>`).join('');
+//   return `
+//     <div class="col-lg-4 col-md-6 portfolio-item filter-app" 
+//          data-name="${e.name}" 
+//          data-img="${e.img}" 
+//          data-tech="${e.tech}" 
+//          data-url="${e.url}" 
+//          data-description="${e.description || ''}"
+//         >
+//       <div class="portfolio-wrap tilt-card">
+//         <img src="${e.img}" alt="${e.name}" class="img-fluid">
+//         <div class="portfolio-info">
+//           <h4>${e.name}</h4>
+//           <div class="portfolio-links">
+//           <a href="javascript:void(0)" class="project-details-btn" title="View Details"><i class="bi bi-eye"></i></a>
+//           <a href="${e.url}" target="_blank" title="Live Demo"><i class="bi bi-link-45deg"></i></a>
+//           </div>
+//           </div>
+//           </div>
+//           </div>`;
+//   // <div class="portfolio-tech-list">${techBadges}</div>
+// }
+
 function getPortfolios(e) {
-  //  data-problem="${e.problem || 'Coming soon...'}"
-  //        data-solution="${e.solution || 'Coming soon...'}"
-  //        data-role="${e.role || 'Senior Developer'}"
-  //        data-impact="${e.impact || 'Successful deployment and positive user feedback.'}"
-  const techBadges = String(e.tech || '').split(',').filter(t => t.trim()).map(t => `<span class="portfolio-tech-badge">${t.trim()}</span>`).join('');
+  const techBadges = String(e.tech || '')
+    .split(',')
+    .filter(t => t.trim())
+    .map(t => `<span class="portfolio-tech-badge">${t.trim()}</span>`)
+    .join('');
+
+  // Dynamic Action Button
+  let actionButton = '';
+
+  if (e.live) {
+    actionButton = `
+      <a href="${e.live}" target="_blank" title="Live Demo">
+        <i class="bi bi-link-45deg"></i>
+      </a>`;
+  }
+  else if (e.download) {
+    actionButton = `
+      <a href="${e.download}" download title="Download">
+        <i class="bi bi-download"></i>
+      </a>`;
+  }
+
   return `
     <div class="col-lg-4 col-md-6 portfolio-item filter-app" 
          data-name="${e.name}" 
          data-img="${e.img}" 
          data-tech="${e.tech}" 
-         data-url="${e.url}" 
+         data-live="${e.live || ''}" 
+         data-download="${e.download || ''}" 
          data-description="${e.description || ''}"
-        >
+    >
       <div class="portfolio-wrap tilt-card">
+        
         <img src="${e.img}" alt="${e.name}" class="img-fluid">
+
         <div class="portfolio-info">
           <h4>${e.name}</h4>
+
           <div class="portfolio-links">
-          <a href="javascript:void(0)" class="project-details-btn" title="View Details"><i class="bi bi-eye"></i></a>
-          <a href="${e.url}" target="_blank" title="Live Demo"><i class="bi bi-link-45deg"></i></a>
+
+            <!-- Details Button -->
+            <a href="javascript:void(0)" 
+               class="project-details-btn" 
+               title="View Details">
+              <i class="bi bi-eye"></i>
+            </a>
+
+            <!-- Live OR Download Button -->
+            ${actionButton}
+
           </div>
-          </div>
-          </div>
-          </div>`;
-  // <div class="portfolio-tech-list">${techBadges}</div>
+
+          <!-- Optional Tech Badges -->
+          <!-- <div class="portfolio-tech-list">${techBadges}</div> -->
+
+        </div>
+      </div>
+    </div>`;
 }
 
 function getProgress(e) {
@@ -336,45 +397,49 @@ class LiquidNebula {
 
 // Credentials List Builder
 function buildCredentialsList(p) {
-  const credentials = [
-    {
-      title: "Bachelor of Computer Science (Graduation)",
-      subtitle: "Lahore District, Punjab, Pakistan",
-      icon: '<i class="bi bi-mortarboard-fill"></i>'
-    },
-    {
-      title: "Microsoft Certified: Azure Developer Associate",
-      subtitle: "Microsoft",
-      icon: '<i class="bi bi-cloud-fill"></i>'
-    },
-    {
-      title: "Advanced Angular Components & Architecture - Udemy",
-      subtitle: "Udemy",
-      icon: '<i class="bi bi-shield-fill"></i>'
-    },
-    {
-      title: "Freelance Web Developer (5 Star Rating - 20+ projects)",
-      subtitle: "Fiverr & Upwork",
-      icon: '<i class="bi bi-star-fill"></i>'
-    }
-  ];
+  const certifications = p.certifications || [];
 
   let html = '';
-  credentials.forEach(c => {
-    html += `
+  certifications.forEach(c => {
+    const title = c.title || c.name || "";
+    const subtitle = c.subtitle || c.source || "";
+    const url = c.url || "";
+
+    // Determine the icon HTML dynamically
+    let iconHtml = '';
+    if (c.icon) {
+      if (c.icon.trim().startsWith('<')) {
+        iconHtml = c.icon;
+      } else {
+        iconHtml = `<i class="bi ${c.icon}"></i>`;
+      }
+    } else if (c.img) {
+      iconHtml = `<img src="${c.img}" alt="${title}">`;
+    } else {
+      iconHtml = `<i class="bi bi-patch-check-fill"></i>`;
+    }
+
+    const itemContent = `
       <div class="credential-item">
         <div class="credential-icon">
-          ${c.icon}
+          ${iconHtml}
         </div>
         <div class="credential-info">
-          <h4>${c.title}</h4>
-          <p>${c.subtitle}</p>
+          <h4>${title}</h4>
+          <p>${subtitle}</p>
         </div>
       </div>
     `;
+
+    if (url) {
+      html += `<a href="${url}" target="_blank" class="credential-link" style="text-decoration: none; display: block; color: inherit; width: 100%;">${itemContent}</a>`;
+    } else {
+      html += itemContent;
+    }
   });
   return html;
 }
+
 
 // Vertical Chronological Experience Timeline
 // Experience Timeline Slide Logic (Single slide on scroll)
