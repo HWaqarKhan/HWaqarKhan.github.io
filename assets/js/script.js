@@ -110,125 +110,34 @@ function getCertificationTemplate(e) {
       </div>
     </div>`;
 }
-function createLink({
-  href = '#',
-  title,
-  icon,
-  className = '',
-  targetBlank = false,
-  download = false
-}) {
-  return `
-    <a
-      href="${href}"
-      class="${className}"
-      title="${title}"
-      aria-label="${title}"
-      ${targetBlank ? 'target="_blank" rel="noopener noreferrer"' : ''}
-      ${download ? 'download' : ''}
-    >
-      <i class="${icon}" aria-hidden="true"></i>
-    </a>
-  `;
-}
 
 function getPortfolios(e) {
-
-  const {
-    name,
-    img,
-    tech,
-    description = '',
-    live,
-    download
-  } = portfolio;
-
-  const links = [
-
-    createLink({
-      title: 'View Details',
-      icon: 'bi bi-eye',
-      className: 'project-details-btn'
-    }),
-
-    live && createLink({
-      href: live,
-      title: 'Live Demo',
-      icon: 'bi bi-link-45deg',
-      targetBlank: true
-    }),
-
-    download && createLink({
-      href: download,
-      title: 'Download',
-      icon: 'bi bi-download',
-      download: true
-    })
-
-  ]
-    .filter(Boolean)
-    .join('');
-
+  //  data-problem="${e.problem || 'Coming soon...'}"
+  //        data-solution="${e.solution || 'Coming soon...'}"
+  //        data-role="${e.role || 'Senior Developer'}"
+  //        data-impact="${e.impact || 'Successful deployment and positive user feedback.'}"
+  const techBadges = String(e.tech || '').split(',').filter(t => t.trim()).map(t => `<span class="portfolio-tech-badge">${t.trim()}</span>`).join('');
   return `
-    <div
-      class="col-lg-4 col-md-6 portfolio-item filter-app"
-      data-name="${name}"
-      data-img="${img}"
-      data-tech="${tech}"
-      data-description="${description}"
-    >
-
-      <div class="portfolio-wrap tilt-card">
-
-        <img
-          src="${img}"
-          alt="${name}"
-          class="img-fluid"
-          loading="lazy"
+    <div class="col-lg-4 col-md-6 portfolio-item filter-app" 
+         data-name="${e.name}" 
+         data-img="${e.img}" 
+         data-tech="${e.tech}" 
+         data-url="${e.url}" 
+         data-description="${e.description || ''}"
         >
-
+      <div class="portfolio-wrap tilt-card">
+        <img src="${e.img}" alt="${e.name}" class="img-fluid">
         <div class="portfolio-info">
-
-          <h4>${name}</h4>
-
+          <h4>${e.name}</h4>
           <div class="portfolio-links">
-            ${links}
+          <a href="javascript:void(0)" class="project-details-btn" title="View Details"><i class="bi bi-eye"></i></a>
+          <a href="${e.url}" target="_blank" title="Live Demo"><i class="bi bi-link-45deg"></i></a>
           </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  `;
+          </div>
+          </div>
+          </div>`;
+  // <div class="portfolio-tech-list">${techBadges}</div>
 }
-// function getPortfolios(e) {
-//   //  data-problem="${e.problem || 'Coming soon...'}"
-//   //        data-solution="${e.solution || 'Coming soon...'}"
-//   //        data-role="${e.role || 'Senior Developer'}"
-//   //        data-impact="${e.impact || 'Successful deployment and positive user feedback.'}"
-//   const techBadges = String(e.tech || '').split(',').filter(t => t.trim()).map(t => `<span class="portfolio-tech-badge">${t.trim()}</span>`).join('');
-//   return `
-//     <div class="col-lg-4 col-md-6 portfolio-item filter-app" 
-//          data-name="${e.name}" 
-//          data-img="${e.img}" 
-//          data-tech="${e.tech}" 
-//          data-url="${e.url}" 
-//          data-description="${e.description || ''}"
-//         >
-//       <div class="portfolio-wrap tilt-card">
-//         <img src="${e.img}" alt="${e.name}" class="img-fluid">
-//         <div class="portfolio-info">
-//           <h4>${e.name}</h4>
-//           <div class="portfolio-links">
-//           <a href="javascript:void(0)" class="project-details-btn" title="View Details"><i class="bi bi-eye"></i></a>
-//           <a href="${e.url}" target="_blank" title="Live Demo"><i class="bi bi-link-45deg"></i></a>
-//           </div>
-//           </div>
-//           </div>
-//           </div>`;
-//   // <div class="portfolio-tech-list">${techBadges}</div>
-// }
 
 function getProgress(e) {
   return `<div class="col-lg-3 col-md-6 col-6"><div class="count-box"><i class="${e.icon}"></i><span>${e.count}</span><p>${e.name}</p></div></div>`;
