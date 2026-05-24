@@ -1,6 +1,6 @@
 "use strict";
 let ks = new KonsoleSettings();
-// ks.ElemSelector = "#Console";
+ks.ElemSelector = "#Console";
 ks.animatePrint = false;
 ks.printLetterInterval = 20;
 ks.registerDefaultKommands = false;

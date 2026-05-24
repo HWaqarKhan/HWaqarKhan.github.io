@@ -17,6 +17,25 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="language" content="English">
   <meta name="author" content="Waqar Khan">
+  <!-- Theme FOUC Guard: must run before any CSS is parsed to prevent flash of wrong theme -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme-preference');
+        var theme = (stored === 'light' || stored === 'dark') ? stored : 'dark';
+
+        document.documentElement.setAttribute('data-theme', theme);
+
+        // IMPORTANT: expose for JS systems
+        window.__INITIAL_THEME__ = theme;
+
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        window.__INITIAL_THEME__ = 'dark';
+      }
+    })();
+  </script>
+
   <!-- Favicons -->
   <link id="fav" href="" rel="shortcut icon" type="image/png">
 
@@ -44,6 +63,7 @@
 
   <!-- WebGL Background -->
   <canvas id="bg-canvas"></canvas>
+  <div id="light-bg-canvas"></div>
 
   <!-- ======= Header ======= -->
   <header id="header">
@@ -60,17 +80,10 @@
           </li>
           <li><a class="nav-link" href="#portfolio" aria-label="View my Portfolio Projects">Portfolio</a></li>
           <li><a class="nav-link" href="#testimonial" aria-label="Read Client Testimonials">Testimonials</a></li>
-          <!-- <li class="nav-console-item"><a class="nav-link" href="#Console" aria-label="Open Interactive Console">Console</a></li> -->
+          <li class="nav-console-item"><a class="nav-link" href="#Console"
+              aria-label="Open Interactive Console">Console</a></li>
           <li><a class="nav-link" href="#contact" aria-label="Go to Contact Section">Contact</a></li>
-          <!-- <button id="dev-toggle" class="control-btn" title="Toggle Developer Mode" aria-label="Toggle Developer Mode">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="dev-toggle-svg">
-              <rect x="2" y="4" width="20" height="16" rx="3" ry="3" class="bezel"></rect>
-              <path d="M7 8l4 4-4 4" class="prompt-arrow"></path>
-              <line x1="13" y1="16" x2="17" y2="16" class="blinking-cursor"></line>
-            </svg>
-          </button> -->
+
         </ul>
       </nav>
       <!-- .navbar -->
@@ -153,7 +166,6 @@
     </div>
   </section>
   <!-- End About Section -->
-  <!-- End About Section -->
 
   <!-- ======= Portfolio Section ======= -->
   <section id="portfolio" class="portfolio">
@@ -171,7 +183,37 @@
       </div> -->
 
     </div>
-  </section><!-- End Portfolio Section -->
+  </section>
+  <!-- End Portfolio Section -->
+
+  <!-- Project Detail Modal -->
+  <div id="projectModalBackdrop" class="modal-backdrop">
+    <div class="project-detail-modal" id="projectModal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="projectModalTitle"></h3>
+        <button class="modal-close" id="projectModalClose"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="modal-body">
+        <img src="" alt="Project image" class="modal-image" id="projectModalImage"
+          style="width:100%; height:auto; border-radius:12px; margin-bottom:20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" />
+
+        <div class="case-study-meta mb-4">
+          <p class="modal-tech" id="projectModalTech"></p>
+        </div>
+
+        <div class="case-study-narrative">
+          <div class="narrative-section">
+            <h5><i class="bi bi-info-circle me-2"></i>Details</h5>
+            <p class="modal-description" id="projectModalDesc"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" target="_blank" class="btn btn-primary" id="projectLiveDemo">Live Demo</a>
+      </div>
+    </div>
+  </div>
+  <!-- End Project Detail Modal -->
 
   <!-- ======= Testimonial Section ======= -->
   <section class="testimonial" id="testimonial">
@@ -333,6 +375,8 @@
   <script src="./assets/js/konsole.js"></script>
   <script src="./assets/js/consoleScript.js"></script>
   <script src="assets/js/navigation.js"></script>
+  <script src="assets/js/light-background.js"></script>
+  <script src="assets/js/theme-toggle.js"></script>
 
   <!-- Three.js and Energy Ribbons -->
   <script type="importmap">
@@ -346,57 +390,7 @@
   <script type="module" src="assets/js/energy-ribbons.js"></script>
   <script src="assets/js/custom-cursor.js"></script>
 
-  <!-- Project Detail Modal -->
-  <div id="projectModalBackdrop" class="modal-backdrop">
-    <div class="project-detail-modal" id="projectModal">
-      <div class="modal-header">
-        <h3 class="modal-title" id="projectModalTitle"></h3>
-        <button class="modal-close" id="projectModalClose"><i class="bi bi-x-lg"></i></button>
-      </div>
-      <div class="modal-body">
-        <img src="" alt="Project image" class="modal-image" id="projectModalImage"
-          style="width:100%; height:auto; border-radius:12px; margin-bottom:20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" />
 
-        <div class="case-study-meta mb-4">
-          <p class="modal-tech" id="projectModalTech"></p>
-        </div>
-
-        <div class="case-study-narrative">
-          <!-- <div class="narrative-section">
-            <h5><i class="bi bi-question-circle me-2"></i>The Problem</h5>
-            <p id="projectProblem"></p>
-          </div>
-          <div class="narrative-section">
-            <h5><i class="bi bi-lightbulb me-2"></i>The Solution</h5>
-            <p id="projectSolution"></p>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="narrative-section">
-                <h5><i class="bi bi-person-badge me-2"></i>My Role</h5>
-                <p id="projectRole"></p>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="narrative-section">
-                <h5><i class="bi bi-graph-up-arrow me-2"></i>The Impact</h5>
-                <p id="projectImpact"></p>
-              </div>
-            </div>
-          </div> -->
-          <div class="narrative-section">
-            <h5><i class="bi bi-info-circle me-2"></i>Details</h5>
-            <p class="modal-description" id="projectModalDesc"></p>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="#" target="_blank" class="btn btn-primary" id="projectLiveDemo">Live Demo</a>
-        <!-- <a href="#" target="_blank" class="btn btn-secondary" id="projectSourceCode">Source Code</a> -->
-      </div>
-    </div>
-  </div>
-  <!-- End Project Detail Modal -->
 
 
 </html>

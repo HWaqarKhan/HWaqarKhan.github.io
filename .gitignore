@@ -1,0 +1,12 @@
+package-lock.json
+package.json
+.kiro/specs/theme-toggle/.config.kiro
+.kiro/specs/theme-toggle/requirements.md
+.kiro/specs/theme-toggle/design.md
+.kiro/specs/theme-toggle/tasks.md
+.node_modules/
+node_modules/
+assets/js/__tests__/energy-ribbons.test.js
+assets/js/__tests__/light-background.test.js
+assets/js/__tests__/theme-toggle.test.js
+background_animation.html

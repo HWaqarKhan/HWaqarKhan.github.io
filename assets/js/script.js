@@ -162,6 +162,8 @@ function getPortfolios(e) {
       </a>`;
   }
 
+
+
   return `
     <div class="col-lg-4 col-md-6 portfolio-item filter-app" 
          data-name="${e.name}" 
@@ -584,7 +586,20 @@ $(document).ready(function () {
     $('#projectSolution').text(item.data('solution'));
     $('#projectRole').text(item.data('role'));
     $('#projectImpact').text(item.data('impact'));
-    $('#projectLiveDemo').attr('href', item.data('url'));
+
+    const live = item.data('live');
+    const download = item.data('download');
+
+    const btn = $('#projectLiveDemo');
+
+    if (live || download) {
+      btn.show();
+      btn.attr('href', live || download);
+      btn.text(live ? 'Live Demo' : 'Download');
+    } else {
+      btn.hide();
+    }
+
     $('#projectModalBackdrop').addClass('show');
     $('body').css('overflow', 'hidden');
   });

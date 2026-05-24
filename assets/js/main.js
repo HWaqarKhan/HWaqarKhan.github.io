@@ -1,9 +1,25 @@
-
 document.addEventListener('DOMContentLoaded', function () {
-  var consoleEl = document.querySelector('.console');
-  if (consoleEl) consoleEl.classList.add('hidden');
-});
 
+  window.themeToggle = new ThemeToggle();
+  window.themeToggle.init();
+
+  // Let the background script create its own instance, then sync the initial theme.
+  setTimeout(() => {
+    if (window.__INITIAL_THEME__ === 'light' && window.lightBackground) {
+      window.lightBackground.start();
+    }
+  }, 0);
+
+});
+document.addEventListener('themechange', (e) => {
+  const { theme } = e.detail;
+
+  if (theme === 'light') {
+    window.lightBackground.start();
+  } else {
+    window.lightBackground.stop();
+  }
+});
 /**
  * Smoothly scrolls a section element to the top using requestAnimationFrame.
  */
@@ -64,7 +80,7 @@ function smoothScrollToTop(el) {
     document.body.classList.toggle('mobile-nav-active')
     this.classList.toggle('bi-list')
     this.classList.toggle('bi-x')
-    // $('#Console').classList.add('hidden');
+    $('#Console').classList.add('hidden');
   })
   /**
    * Scrool with ofset on links with a class name .scrollto

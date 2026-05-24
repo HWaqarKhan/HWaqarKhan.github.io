@@ -30,6 +30,7 @@ class EnergyRibbons {
         this.createDust();
         this.setupPostProcessing();
         this.addEventListeners();
+        this.running = true;
         this.animate();
     }
 
@@ -263,7 +264,17 @@ class EnergyRibbons {
         });
     }
 
+    stop() {
+        this.running = false;
+    }
+
+    start() {
+        this.running = true;
+        this.animate();
+    }
+
     animate() {
+        if (!this.running) return;
         requestAnimationFrame(() => this.animate());
 
         const delta = this.isReducedMotion ? 0.002 : 0.01;
@@ -291,5 +302,5 @@ class EnergyRibbons {
 
 // Initialize when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new EnergyRibbons();
+    window.energyRibbons = new EnergyRibbons();
 });
