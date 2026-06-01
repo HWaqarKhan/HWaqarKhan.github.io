@@ -217,7 +217,7 @@
                 "name": "Sticky Viewer",
                 "img": "assets/images/portfolio/Sticky_Viewer.png",
                 "tech": "Python, WebView2",
-                "download": "https://github.com/HWaqarKhan/HWaqarKhan.github.io/releases/download/Enhancements/StickyViewer-Setup.exe",
+                "download": "https://github.com/HWaqarKhan/HWaqarKhan.github.io/releases/download/sticky_viewer/StickyViewer-Setup.exe",
                 "description": "Sticky Viewer is a lightweight, always-on-top PDF reader with built-in sticky notes and intelligent screen sharing protection. Designed for students, researchers, and professionals, it lets users read PDFs, attach page-specific notes, and browse securely without breaking focus. Featuring system tray integration, privacy controls during meetings, and a clean modern interface, Sticky Viewer streamlines deep work and multitasking."
             },
             {
